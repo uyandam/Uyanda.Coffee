@@ -4,4 +4,13 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Accessors\" />
+    <Folder Include="Entities\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Migrations\" />
+    <Folder Include="ModelBuilders\" />
+  </ItemGroup>
+
 </Project>

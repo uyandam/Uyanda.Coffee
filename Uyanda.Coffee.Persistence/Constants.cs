@@ -2,7 +2,7 @@
 
 namespace Uyanda.Coffee.Persistence
 {
-    public class Class1
+    public class Constants
     {
     }
 }
