@@ -1,11 +1,30 @@
 {
   "version": 3,
   "targets": {
-    ".NETCoreApp,Version=v3.1": {}
+    ".NETCoreApp,Version=v3.1": {
+      "Uyanda.Coffee.Application/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v3.1",
+        "compile": {
+          "bin/placeholder/Uyanda.Coffee.Application.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Uyanda.Coffee.Application.dll": {}
+        }
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "Uyanda.Coffee.Application/1.0.0": {
+      "type": "project",
+      "path": "../Uyanda.Coffee.Application/Uyanda.Coffee.Application.csproj",
+      "msbuildProject": "../Uyanda.Coffee.Application/Uyanda.Coffee.Application.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    ".NETCoreApp,Version=v3.1": []
+    ".NETCoreApp,Version=v3.1": [
+      "Uyanda.Coffee.Application >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Uyanda\\.nuget\\packages\\": {},
@@ -39,7 +58,11 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Application\\Uyanda.Coffee.Application.csproj": {
+              "projectPath": "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Application\\Uyanda.Coffee.Application.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

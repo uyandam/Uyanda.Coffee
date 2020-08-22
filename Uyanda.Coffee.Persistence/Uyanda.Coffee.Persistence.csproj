@@ -5,12 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Accessors\" />
     <Folder Include="Entities\" />
     <Folder Include="Extensions\" />
     <Folder Include="Mapping\" />
     <Folder Include="Migrations\" />
     <Folder Include="ModelBuilders\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj" />
   </ItemGroup>
 
 </Project>
