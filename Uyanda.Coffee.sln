@@ -9,9 +9,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.WebApi", "Uya
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Integration", "Uyanda.Coffee.Integration\Uyanda.Coffee.Integration.csproj", "{D61356F3-4945-42CC-A965-AC78A7D73732}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Persistence", "Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj", "{E54684C6-47B3-45D8-9E25-DABE3CB9D5BA}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Services", "Uyanda.Coffee.Services\Uyanda.Coffee.Services.csproj", "{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.Persistence", "Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj", "{246798B3-9250-4B2B-8E20-71EEC1807244}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5372178B-29C8-4D71-BE21-EDC4F9F2045B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{E773C391-57F1-455E-B36D-5DA81A53AA5F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,17 +35,24 @@ Global
 		{D61356F3-4945-42CC-A965-AC78A7D73732}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D61356F3-4945-42CC-A965-AC78A7D73732}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D61356F3-4945-42CC-A965-AC78A7D73732}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E54684C6-47B3-45D8-9E25-DABE3CB9D5BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E54684C6-47B3-45D8-9E25-DABE3CB9D5BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E54684C6-47B3-45D8-9E25-DABE3CB9D5BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E54684C6-47B3-45D8-9E25-DABE3CB9D5BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{246798B3-9250-4B2B-8E20-71EEC1807244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{246798B3-9250-4B2B-8E20-71EEC1807244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{246798B3-9250-4B2B-8E20-71EEC1807244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{246798B3-9250-4B2B-8E20-71EEC1807244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E773C391-57F1-455E-B36D-5DA81A53AA5F} = {5372178B-29C8-4D71-BE21-EDC4F9F2045B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4D489A2-8DA4-4289-A312-F7B97C2C7DE0}
