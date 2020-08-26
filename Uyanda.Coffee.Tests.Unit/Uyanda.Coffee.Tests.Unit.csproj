@@ -19,8 +19,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj" />
-  </ItemGroup>
-
 </Project>
