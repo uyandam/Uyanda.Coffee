@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "OqXaM2uWkPCV7n0X18EIbz9u7kVPyoNHk6IBtj+ZjPFbKBxEDCvee/f4Lbk6qE0HP9yRqDZo6lQh9KzZDvEfEw==",
+  "dgSpecHash": "bUhIcyMPUmvfQWXSvsXziCNOsx870EcyQVfKuJfD2TeTKVil5V3svso5CYAwbw1NLxtrsnyIPy3ZLATKqCjrWw==",
   "success": true,
-  "projectFilePath": "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Application\\Uyanda.Coffee.Application.csproj",
+  "projectFilePath": "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Application\\Uyanda.Coffee.Application.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\ponts\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.7\\microsoft.extensions.dependencyinjection.abstractions.3.1.7.nupkg.sha512"
+    "C:\\Users\\Uyanda\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\3.1.7\\microsoft.extensions.dependencyinjection.abstractions.3.1.7.nupkg.sha512"
   ],
   "logs": []
 }

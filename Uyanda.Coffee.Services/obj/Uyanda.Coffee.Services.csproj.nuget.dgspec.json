@@ -1,28 +1,33 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj": {}
+    "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj": {}
   },
   "projects": {
-    "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj": {
+    "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj",
+        "projectUniqueName": "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj",
         "projectName": "Uyanda.Coffee.Services",
-        "projectPath": "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj",
-        "packagesPath": "C:\\Users\\ponts\\.nuget\\packages\\",
-        "outputPath": "C:\\Dev\\Uyanda\\Uyanda.Coffee\\Uyanda.Coffee.Services\\obj\\",
+        "projectPath": "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Services\\Uyanda.Coffee.Services.csproj",
+        "packagesPath": "C:\\Users\\Uyanda\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Uyanda\\source\\repos\\Uyanda.Coffee\\Uyanda.Coffee.Services\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\ponts\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Uyanda\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "https://api.nuget.org/v3/index.json": {},
-          "https://pkgs.dev.azure.com/beyondpayments/_packaging/WalletPlatformPackages/nuget/v3/index.json": {}
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "netcoreapp3.1": {
@@ -52,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.401\\RuntimeIdentifierGraph.json"
         }
       }
     }
