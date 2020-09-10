@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -32,7 +33,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
         {
-            var entities = beverages.Select(ToEntity);
+            var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
+                          // Read on Linq (How to use the where clause.). Read on both Query type and Method type
+                          select b;
+
+            var entities = await dbQuery.ToArrayAsync();
 
             return entities.Select(ToModel);
         }

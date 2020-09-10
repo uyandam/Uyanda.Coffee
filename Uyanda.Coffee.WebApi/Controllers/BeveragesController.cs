@@ -31,7 +31,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             {
                 GetBeveragesQuery query = new GetBeveragesQuery();
                 
-                var rahl = beverageManagementService.GetBeveragesAsync();
+                var rahl = await beverageManagementService.GetBeveragesAsync();
                 Console.WriteLine("Start toxic");
                 Console.WriteLine(rahl);
                 Console.WriteLine("Remain toxic");
