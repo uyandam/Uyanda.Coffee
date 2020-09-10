@@ -8,6 +8,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
     {
         Task<AddBeveragesResult> AddBeveragesAsync(AddBeveragesCommand command);
 
-        Task<GetBeveragesResult> GetBeveragesAsync(GetBeveragesQuery query);
+        Task<GetBeveragesResult> GetBeveragesAsync();
     }
 }

@@ -30,6 +30,13 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return entities.Select(ToModel);
         }
 
+        public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
+        {
+            var entities = beverages.Select(ToEntity);
+
+            return entities.Select(ToModel);
+        }
+
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
         private BeverageEntity ToEntity(BeverageModel model) => mapper.Map<BeverageEntity>(model);

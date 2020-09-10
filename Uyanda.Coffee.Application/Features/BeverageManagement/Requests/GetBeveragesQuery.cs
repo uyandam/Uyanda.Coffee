@@ -5,6 +5,8 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
     public class GetBeveragesQuery
     {
+        public IEnumerable<BeverageModel> Beverages { get; set; }
+
         public IEnumerable<BeverageType> BeverageTypes { get; set; }
 
         public IEnumerable<bool> ActiveStates { get; set; }

@@ -19,9 +19,34 @@ namespace Uyanda.Coffee.WebApi.Controllers
         {
             this.beverageManagementService = beverageManagementService;
         }
-
+        
+        // Get methods
         [HttpGet]
         public string Get() => "Congrats! You have hit the API!!!";
+
+        [HttpGet("ListBeverages")]
+        public async Task<IActionResult> ListBeverages()
+        {
+            try
+            {
+                GetBeveragesQuery query = new GetBeveragesQuery();
+                
+                var rahl = beverageManagementService.GetBeveragesAsync();
+                Console.WriteLine("Start toxic");
+                Console.WriteLine(rahl);
+                Console.WriteLine("Remain toxic");
+                return Ok(rahl);
+            }
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return StatusCode(500, e);
+            }
+            //var rahl = beverageManagementService.GetBeveragesAsync(query);
+            
+        }
+
+        //Post methods
 
         [HttpPost("AddBeverages")]
         public async Task<IActionResult> AddBeveragesAsync([FromBody] AddBeveragesCommand command)
