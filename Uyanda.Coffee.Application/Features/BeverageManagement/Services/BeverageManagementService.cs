@@ -21,9 +21,9 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new AddBeveragesResult { Beverages = result };
         }
 
-        public async Task<GetBeveragesResult> GetBeveragesAsync()
+        public async Task<GetBeveragesResult> GetBeveragesAsync(GetBeveragesQuery query)
         {
-            GetBeveragesQuery query = new GetBeveragesQuery();
+
             var queryResult = await beverageAccessor.GetBeveragesAsync(query.Beverages);
             return new GetBeveragesResult { Beverages = queryResult };
             //throw new System.NotImplementedException();

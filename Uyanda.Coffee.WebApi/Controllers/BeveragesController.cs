@@ -24,17 +24,13 @@ namespace Uyanda.Coffee.WebApi.Controllers
         [HttpGet]
         public string Get() => "Congrats! You have hit the API!!!";
 
-        [HttpGet("ListBeverages")]
-        public async Task<IActionResult> ListBeverages()
+        [HttpPost("ListBeverages")]
+        public async Task<IActionResult> ListBeverages([FromBody] GetBeveragesQuery query)
         {
             try
             {
-                GetBeveragesQuery query = new GetBeveragesQuery();
                 
-                var rahl = await beverageManagementService.GetBeveragesAsync();
-                Console.WriteLine("Start toxic");
-                Console.WriteLine(rahl);
-                Console.WriteLine("Remain toxic");
+                var rahl = await beverageManagementService.GetBeveragesAsync(query);
                 return Ok(rahl);
             }
             catch(Exception e)
