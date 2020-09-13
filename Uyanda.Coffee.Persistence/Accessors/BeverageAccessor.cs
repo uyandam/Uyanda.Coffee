@@ -33,7 +33,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
         {
+            
+            //Console.WriteLine(beverages.First());
+            var requestedCoffee = beverages.First().Id;
             var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
+                          where b.Id == requestedCoffee
                           // Read on Linq (How to use the where clause.). Read on both Query type and Method type
                           select b;
 
