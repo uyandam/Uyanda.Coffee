@@ -2,6 +2,8 @@
 using Uyanda.Coffee.Application.Features.BeverageManagement.Persistence;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
@@ -27,6 +29,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             var queryResult = await beverageAccessor.GetBeveragesAsync(query.Beverages);
             return new GetBeveragesResult { Beverages = queryResult };
             //throw new System.NotImplementedException();
+        }
+
+        public async Task<IEnumerable<ListBeveragesResult>> ListBeveragesAsync()
+        {
+            var result = await beverageAccessor.ListBeveragesAync();
+            return result;
         }
     }
 }

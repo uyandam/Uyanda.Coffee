@@ -58,5 +58,19 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost("getbeveragelistsummary")]
+        public async Task<IActionResult> getbeveragelistsummary()
+        {
+            try
+            {
+                var result = await beverageManagementService.ListBeveragesAsync();
+                return Ok(result);
+            }catch(Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }

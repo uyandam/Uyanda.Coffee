@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Persistence;
 using Uyanda.Coffee.Persistence.Entities;
+using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
 
 namespace Uyanda.Coffee.Persistence.Accessors
 {
@@ -44,6 +45,18 @@ namespace Uyanda.Coffee.Persistence.Accessors
             var entities = await dbQuery.ToArrayAsync();
 
             return entities.Select(ToModel);
+        }
+
+        public async Task<IEnumerable<ListBeveragesResult>> ListBeveragesAync()
+        {
+            var query =  await localDbContext.Beverages.AsNoTracking()
+                .Select(x => new
+                ListBeveragesResult
+                {
+                    Beverage = x.Name
+                }).ToListAsync();
+
+            return  query;
         }
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
