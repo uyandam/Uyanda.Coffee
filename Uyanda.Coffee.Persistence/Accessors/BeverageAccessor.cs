@@ -34,12 +34,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
         {
-            
-            //Console.WriteLine(beverages.First());
+
             var requestedCoffee = beverages.First().Id;
             var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
-                          where b.Id == requestedCoffee
-                          // Read on Linq (How to use the where clause.). Read on both Query type and Method type
+                          where b.Id != requestedCoffee
                           select b;
 
             var entities = await dbQuery.ToArrayAsync();
@@ -57,6 +55,21 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 }).ToListAsync();
 
             return  query;
+        }
+
+        public async Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync()
+        {
+           
+            var query = await localDbContext.Beverages.AsNoTracking()
+              .GroupBy(l => l.Name)
+              .Select(g => new
+              AvailableCoffeeCupModel
+              {
+                  Name = g.Key,
+                  Cups = g.Count()
+              }).ToListAsync();
+
+            return query;
         }
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);

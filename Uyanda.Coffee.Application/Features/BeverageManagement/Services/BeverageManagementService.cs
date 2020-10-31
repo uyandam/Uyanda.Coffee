@@ -36,5 +36,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             var result = await beverageAccessor.ListBeveragesAync();
             return result;
         }
+
+        public async Task<AvailableCoffeeCupResult> AvailableCoffeeCupsAsync()
+        {
+            var result = await beverageAccessor.GetCoffeeCupsAsync();
+
+            return new AvailableCoffeeCupResult { AvailableCoffeeCups = result};
+        }
     }
 }
