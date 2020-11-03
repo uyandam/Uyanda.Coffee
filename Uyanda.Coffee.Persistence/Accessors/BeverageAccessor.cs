@@ -37,7 +37,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             var requestedCoffee = beverages.First().Id;
             var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
-                          where b.Id != requestedCoffee
+                          where b.Id == requestedCoffee
                           select b;
 
             var entities = await dbQuery.ToArrayAsync();
@@ -45,17 +45,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return entities.Select(ToModel);
         }
 
-        public async Task<IEnumerable<ListBeveragesResult>> ListBeveragesAync()
-        {
-            var query =  await localDbContext.Beverages.AsNoTracking()
-                .Select(x => new
-                ListBeveragesResult
-                {
-                    Beverage = x.Name
-                }).ToListAsync();
-
-            return  query;
-        }
 
         public async Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync()
         {

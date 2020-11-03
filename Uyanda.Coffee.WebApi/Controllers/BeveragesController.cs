@@ -38,11 +38,9 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 Console.WriteLine(e);
                 return StatusCode(500, e);
             }
-            //var rahl = beverageManagementService.GetBeveragesAsync(query);
             
         }
 
-        //Post methods
 
         [HttpPost("AddBeverages")]
         public async Task<IActionResult> AddBeveragesAsync([FromBody] AddBeveragesCommand command)
@@ -59,19 +57,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("getbeveragelistsummary")]
-        public async Task<IActionResult> getbeveragelistsummary()
-        {
-            try
-            {
-                var result = await beverageManagementService.ListBeveragesAsync();
-                return Ok(result);
-            }catch(Exception e)
-            {
-                return StatusCode(500, e);
-            }
-        }
-
+       
         [HttpPost("getavailablecups")]
         public async Task<IActionResult> getavailablecups()
         {
