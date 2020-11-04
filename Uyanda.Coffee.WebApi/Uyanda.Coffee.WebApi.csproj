@@ -4,5 +4,17 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj" />
+    <ProjectReference Include="..\Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj" />
+  </ItemGroup>
+
 
 </Project>

@@ -1,8 +1,7 @@
-﻿using System;
-
-namespace Uyanda.Coffee.Persistence
+﻿namespace Uyanda.Coffee.Persistence
 {
-    public class Constants
+    public static class Constants
     {
+        public const string DataSchema = "Data";
     }
 }
