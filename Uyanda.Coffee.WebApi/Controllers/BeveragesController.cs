@@ -59,7 +59,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
 
        
         [HttpPost("getavailablecups")]
-        public async Task<IActionResult> Getavailablecups()
+        public async Task<IActionResult> GetAvailableCups()
         {
             try
             {
