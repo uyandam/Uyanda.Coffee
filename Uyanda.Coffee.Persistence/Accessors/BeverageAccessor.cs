@@ -35,9 +35,9 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
         {
 
-            var requestedCoffee = beverages.First().Id;
+            var requestedBeverage = beverages.First().Id;
             var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
-                          where b.Id == requestedCoffee
+                          where b.Id == requestedBeverage
                           select b;
 
             var entities = await dbQuery.ToArrayAsync();
