@@ -20,6 +20,8 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<BeverageSizeEntity> BeverageSizes { get; set; }
 
+        public DbSet<BeverageTypeEntity> BeverageTypes { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -35,6 +37,13 @@ namespace Uyanda.Coffee.Persistence
                 entity.Property(p => p.Name).HasColumnType("varchar(128)");
 
                 entity.ToTable("Beverage");
+            });
+
+            modelBuilder.Entity<BeverageTypeEntity>(entity =>
+            {
+                entity.Property(p => p.Name).HasColumnType("varchar(128)");
+
+                entity.ToTable("BeverageTypes");
             });
         }
     }

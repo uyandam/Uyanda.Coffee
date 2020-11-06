@@ -15,6 +15,10 @@ namespace Uyanda.Coffee.Persistence.Mapping
             //BeverageSize Mapping
             CreateMap<BeverageSizeModel, BeverageSizeEntity>();
             CreateMap<BeverageSizeEntity, BeverageSizeModel>();
+
+            //BeverageType Mapping
+            CreateMap<BeverageTypeModel, BeverageTypeEntity>();
+            CreateMap<BeverageTypeEntity, BeverageTypeModel>();
         }
     }
 }
