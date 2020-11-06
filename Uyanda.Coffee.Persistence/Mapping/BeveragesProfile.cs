@@ -8,8 +8,13 @@ namespace Uyanda.Coffee.Persistence.Mapping
     {
         public BeveragesProfile()
         {
+            //Beverage Mapping
             CreateMap<BeverageModel, BeverageEntity>();
             CreateMap<BeverageEntity, BeverageModel>();
+
+            //BeverageSize Mapping
+            CreateMap<BeverageSizeModel, BeverageSizeEntity>();
+            CreateMap<BeverageSizeEntity, BeverageSizeModel>();
         }
     }
 }
