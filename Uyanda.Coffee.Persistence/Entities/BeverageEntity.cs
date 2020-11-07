@@ -6,10 +6,8 @@ namespace Uyanda.Coffee.Persistence.Entities
     {
         public int Id { get; set; }
 
-        public bool IsActive { get; set; }
-
         public string Name { get; set; }
 
-        public BeverageType BeverageType { get; set; }
+        public BeverageTypeEntity BeverageTypeEntity { get; set; }
     }
 }
