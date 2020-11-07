@@ -61,8 +61,28 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query;
         }
 
+        //----------------------------------------------------------------------------------------
+
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
         private BeverageEntity ToEntity(BeverageModel model) => mapper.Map<BeverageEntity>(model);
+
+        //----------------------------------------------------------------------------------------
+
+        private BeverageTypeModel ToModel(BeverageTypeEntity entity) => mapper.Map<BeverageTypeModel>(entity);
+
+        private BeverageTypeEntity ToEntity(BeverageTypeModel model) => mapper.Map<BeverageTypeEntity>(model);
+
+        //----------------------------------------------------------------------------------------
+        private BeverageSizeModel ToModel(BeverageSizeEntity entity) => mapper.Map<BeverageSizeModel>(entity);
+
+        private BeverageSizeEntity ToEntity(BeverageSizeModel model) => mapper.Map<BeverageSizeEntity>(model);
+
+        //----------------------------------------------------------------------------------------
+        private BeverageSizeCostModel ToModel(BeverageSizeCostEntity entity) => mapper.Map<BeverageSizeCostModel>(entity);
+
+        private BeverageSizeCostEntity ToEntity(BeverageSizeCostModel model) => mapper.Map<BeverageSizeCostEntity>(model);
+
+        //----------------------------------------------------------------------------------------
     }
 }

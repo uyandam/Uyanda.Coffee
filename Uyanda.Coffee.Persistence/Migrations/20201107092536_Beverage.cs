@@ -37,6 +37,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 principalTable: "BeverageTypes",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Restrict);
+
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

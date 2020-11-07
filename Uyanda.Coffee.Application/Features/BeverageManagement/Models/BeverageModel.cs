@@ -6,5 +6,7 @@
 
         public string Name { get; set; }
 
+        public BeverageTypeModel BeverageTypeEntity { get; set; }
+
     }
 }

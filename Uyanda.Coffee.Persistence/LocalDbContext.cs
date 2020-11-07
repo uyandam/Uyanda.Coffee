@@ -22,6 +22,8 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<BeverageTypeEntity> BeverageTypes { get; set; }
 
+        public DbSet<BeverageSizeCostEntity> BeverageSizeCostEntities { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
