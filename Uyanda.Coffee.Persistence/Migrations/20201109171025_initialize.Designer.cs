@@ -9,15 +9,15 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20200826200604_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20201109171025_initialize")]
+    partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("Data")
-                .HasAnnotation("ProductVersion", "3.1.7")
+                .HasAnnotation("ProductVersion", "3.1.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -30,9 +30,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.Property<int>("BeverageType")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .HasColumnType("varchar(128)");

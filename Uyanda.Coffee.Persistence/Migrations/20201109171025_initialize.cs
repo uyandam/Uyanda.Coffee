@@ -2,7 +2,7 @@
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -16,7 +16,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    IsActive = table.Column<bool>(nullable: false),
                     Name = table.Column<string>(type: "varchar(128)", nullable: true),
                     BeverageType = table.Column<int>(nullable: false)
                 },
