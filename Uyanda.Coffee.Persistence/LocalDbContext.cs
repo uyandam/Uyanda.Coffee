@@ -34,7 +34,7 @@ namespace Uyanda.Coffee.Persistence
             {
                 entity.Property(p => p.Name).HasColumnType("varchar(128)");
 
-                entity.ToTable("Beverage");
+                entity.ToTable("Beverages");
             });
 
         }

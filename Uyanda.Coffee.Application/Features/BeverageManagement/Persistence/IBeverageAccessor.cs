@@ -9,6 +9,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
     {
         Task<IEnumerable<BeverageModel>> AddBeveragesAsync(IEnumerable<BeverageModel> beverages);
         Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages);
-        Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync();  
+        Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync();
+        Task<IEnumerable<BeverageSizeCostModel>> AddBeverageCostAync(IEnumerable<BeverageSizeCostModel> prices);
     }
 }

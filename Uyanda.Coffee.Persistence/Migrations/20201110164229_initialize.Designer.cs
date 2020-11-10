@@ -9,7 +9,7 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20201109171025_initialize")]
+    [Migration("20201110164229_initialize")]
     partial class initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,7 +36,39 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Beverage");
+                    b.ToTable("Beverages");
+                });
+
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BeverageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BeverageSize")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("Cost")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeverageId");
+
+                    b.ToTable("BeverageCost");
+                });
+
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", b =>
+                {
+                    b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageEntity", "Beverage")
+                        .WithMany()
+                        .HasForeignKey("BeverageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

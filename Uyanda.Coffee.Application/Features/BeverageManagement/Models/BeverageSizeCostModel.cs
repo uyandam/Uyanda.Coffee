@@ -8,7 +8,9 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
     {
         public int Id { get; set; }
 
-        public BeverageModel BeverageId { get; set; }
+        public int BeverageId { get; set; }
+
+        public BeverageModel Beverage { get; set; }
 
         public decimal Cost { get; set; }
 

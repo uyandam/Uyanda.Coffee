@@ -72,5 +72,23 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost("addbeveragecost")]
+        public async Task<IActionResult> AddBeverageCost([FromBody] AddBeverageCostCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.AddBeverageCostAsync(command);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("SAWFT ");
+                Console.WriteLine(e);
+                Console.WriteLine("Righteous");
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }
