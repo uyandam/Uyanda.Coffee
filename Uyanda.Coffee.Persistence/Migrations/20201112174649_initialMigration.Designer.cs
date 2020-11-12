@@ -9,8 +9,8 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20201110164229_initialize")]
-    partial class initialize
+    [Migration("20201112174649_initialMigration")]
+    partial class initialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -31,12 +31,15 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.Property<int>("BeverageType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Beverages");
+                    b.ToTable("Beverage");
                 });
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", b =>

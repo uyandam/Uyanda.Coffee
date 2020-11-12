@@ -61,7 +61,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query;
         }
 
-        public async Task<IEnumerable<BeverageSizeCostModel>> AddBeverageCostAync(IEnumerable<BeverageSizeCostModel> prices)
+        public async Task<IEnumerable<BeverageSizeCostModel>> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices)
         {
             var entities = prices.Select(ToEntity);
             localDbContext.BeverageCost.AddRange(entities);

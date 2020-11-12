@@ -29,12 +29,15 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.Property<int>("BeverageType")
                         .HasColumnType("int");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .HasColumnType("varchar(128)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Beverages");
+                    b.ToTable("Beverage");
                 });
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", b =>

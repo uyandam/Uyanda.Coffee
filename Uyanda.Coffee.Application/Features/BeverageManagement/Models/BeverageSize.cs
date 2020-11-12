@@ -7,7 +7,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
     public enum BeverageSize
     {
         Small,
-        Large,
+        Medium,
         Grande,
         Single,
         Double
