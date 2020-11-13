@@ -20,7 +20,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             this.beverageManagementService = beverageManagementService;
         }
         
-        // Get methods
+
         [HttpGet]
         public string Get() => "Congrats! You have hit the API!!!";
 
@@ -68,9 +68,23 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost("addbeveragecost")]
+        public async Task<IActionResult> AddBeverageCostAsync([FromBody] AddBeverageCostCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.AddBeverageCostAsync(command);
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }
