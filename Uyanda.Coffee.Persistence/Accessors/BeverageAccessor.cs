@@ -71,6 +71,16 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return entities.Select(ToModel);
         }
 
+
+        public async Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync()
+        {
+            var query = await localDbContext.BeverageCost.AsNoTracking()
+                        .Select(row => row).ToArrayAsync();
+
+            return query.Select(ToModel);
+        }
+
+
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
         private BeverageEntity ToEntity(BeverageModel model) => mapper.Map<BeverageEntity>(model);

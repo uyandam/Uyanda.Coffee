@@ -47,5 +47,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         }
 
+        public async Task<GetBeverageCostResult> GetBeverageCostAsync()
+        {
+            var result = await beverageAccessor.GetBeverageCostAsync();
+
+            return new GetBeverageCostResult { Prices = result };
+        }
+
     }
 }
