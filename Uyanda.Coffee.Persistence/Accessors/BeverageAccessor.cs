@@ -75,7 +75,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
-                        .Select(row => row).ToArrayAsync();
+                        .ToArrayAsync();
 
             return query.Select(ToModel);
         }
