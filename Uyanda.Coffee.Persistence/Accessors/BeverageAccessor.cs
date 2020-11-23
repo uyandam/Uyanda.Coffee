@@ -75,6 +75,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
+                        .Include(row => row.Beverage)
                         .ToArrayAsync();
 
             return query.Select(ToModel);
