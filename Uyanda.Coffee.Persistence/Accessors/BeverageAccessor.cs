@@ -90,5 +90,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
         private BeverageSizeCostModel ToModel(BeverageSizeCostEntity entity) => mapper.Map<BeverageSizeCostModel>(entity);
 
         private BeverageSizeCostEntity ToEntity(BeverageSizeCostModel model) => mapper.Map<BeverageSizeCostEntity>(model);
+
+        //-----------------------------------------------------------------------------------------
+        private TransactionModel ToModel(TransactionEntity entity) => mapper.Map<TransactionModel>(entity);
+
+        private TransactionEntity ToEntity(TransactionModel model) => mapper.Map<TransactionEntity>(model);
+
     }
 }
