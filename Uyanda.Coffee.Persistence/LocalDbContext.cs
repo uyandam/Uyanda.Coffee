@@ -22,6 +22,8 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<TransactionEntity> Transaction { get; set; }
 
+        public DbSet<InvoiceEntity> Invoice { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

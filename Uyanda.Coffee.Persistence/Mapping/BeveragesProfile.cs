@@ -16,6 +16,9 @@ namespace Uyanda.Coffee.Persistence.Mapping
 
             CreateMap<TransactionModel, TransactionEntity>();
             CreateMap<TransactionEntity, TransactionModel>();
+
+            CreateMap<InvoiceModel, InvoiceEntity>();
+            CreateMap<InvoiceEntity, InvoiceModel>();
         }
     }
 }

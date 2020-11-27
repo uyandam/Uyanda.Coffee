@@ -95,6 +95,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
         private TransactionModel ToModel(TransactionEntity entity) => mapper.Map<TransactionModel>(entity);
 
         private TransactionEntity ToEntity(TransactionModel model) => mapper.Map<TransactionEntity>(model);
+        //-----------------------------------------------------------------------------------------
+        private InvoiceModel ToModel(InvoiceEntity entity) => mapper.Map<InvoiceModel>(entity);
+
+        private InvoiceEntity ToEntity(InvoiceModel model) => mapper.Map<InvoiceEntity>(model);
 
     }
 }
