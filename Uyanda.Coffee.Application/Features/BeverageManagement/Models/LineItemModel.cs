@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 {
-    public class TransactionModel
+    public class LineItemModel
     {
         public int Id { get; set; }
 
@@ -13,5 +13,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
         public BeverageSizeCostModel BeverageSizeCost { get; set; }
 
         public int  Count { get; set; }
+
+        public decimal CostPerItem { get; set; }
     }
 }

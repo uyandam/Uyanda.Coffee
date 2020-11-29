@@ -79,7 +79,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.ToTable("Invoice");
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.TransactionEntity", b =>
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.LineItemEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -88,6 +88,9 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.Property<int>("BeverageSizeCostId")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("CostPerItem")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Count")
                         .HasColumnType("int");
@@ -101,7 +104,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasIndex("InvoiceEntityId");
 
-                    b.ToTable("Transaction");
+                    b.ToTable("LineItem");
                 });
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", b =>
@@ -113,7 +116,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.TransactionEntity", b =>
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.LineItemEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", "BeverageSizeCost")
                         .WithMany()
@@ -122,7 +125,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", null)
-                        .WithMany("Transactions")
+                        .WithMany("LineItem")
                         .HasForeignKey("InvoiceEntityId");
                 });
 #pragma warning restore 612, 618

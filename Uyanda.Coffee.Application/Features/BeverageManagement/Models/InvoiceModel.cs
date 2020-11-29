@@ -10,6 +10,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 
         public DateTime Date { get; set; }
 
-        public IEnumerable<TransactionModel> Transactions { get; set; }
+        public IEnumerable<LineItemModel> LineItem { get; set; }
     }
 }

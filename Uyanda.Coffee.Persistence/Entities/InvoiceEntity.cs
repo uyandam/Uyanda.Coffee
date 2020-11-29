@@ -10,6 +10,6 @@ namespace Uyanda.Coffee.Persistence.Entities
 
         public DateTime Date { get; set; }
 
-        public IEnumerable<TransactionEntity> Transactions { get; set; }
+        public IEnumerable<LineItemEntity> LineItem { get; set; }
     }
 }

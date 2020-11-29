@@ -20,7 +20,7 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<BeverageSizeCostEntity> BeverageCost { get; set; }
 
-        public DbSet<TransactionEntity> Transaction { get; set; }
+        public DbSet<LineItemEntity> LineItem { get; set; }
 
         public DbSet<InvoiceEntity> Invoice { get; set; }
 

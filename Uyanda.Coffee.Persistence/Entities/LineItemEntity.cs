@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uyanda.Coffee.Persistence.Entities
 {
-    public class TransactionEntity
+    public class LineItemEntity
     {
         public int Id { get; set; }
 
@@ -13,5 +13,7 @@ namespace Uyanda.Coffee.Persistence.Entities
         public BeverageSizeCostEntity BeverageSizeCost { get; set; }
 
         public int Count { get; set; }
+
+        public decimal CostPerItem { get; set; }
     }
 }
