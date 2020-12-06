@@ -96,6 +96,23 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
             catch (Exception e)
             {
+                Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+                Console.WriteLine(e);
+                Console.WriteLine("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpPost("PurchaseBeverages")]
+        public async Task<IActionResult> PurchaseAsync([FromBody] PurchaseCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.PurchaseAsync(command);
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
                 return StatusCode(500, e);
             }
         }

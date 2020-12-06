@@ -54,5 +54,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new GetBeverageCostResult { Prices = result };
         }
 
+        public async Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase)
+        {
+            var result = await beverageAccessor.PurchaseAsync(purchase.LineItems);
+
+            return new PurchaseResult { LineItems = result};
+        }
+
     }
 }

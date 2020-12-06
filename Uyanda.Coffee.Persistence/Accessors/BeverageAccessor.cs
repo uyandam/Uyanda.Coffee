@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Persistence;
 using Uyanda.Coffee.Persistence.Entities;
+using System;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
+
 
 namespace Uyanda.Coffee.Persistence.Accessors
 {
@@ -81,6 +83,34 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query.Select(ToModel);
         }
 
+        public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<PurchaseModel> lineItems)
+        {
+            var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
+                .Select(c => new { Id = c.Id, Cost = c.Cost }).ToArrayAsync();
+
+            var innerJoin = lineItems.Join(
+                costPerItem,
+                item => item.BeverageSizeCostId,
+                price => price.Id,
+                (item, price) => new LineItemModel
+                    {
+                        BeverageSizeCostId = item.BeverageSizeCostId,
+                        Count = item.Count,
+                        CostPerItem = price.Cost
+                    }
+                );
+            
+            var query = innerJoin.Select(ToEntity);
+            
+            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = query.ToArray()};
+
+            localDbContext.Invoice.Add(invoice);
+
+            await localDbContext.SaveChangesAsync();
+           
+            return query.Select(ToModel);
+        }
+
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
@@ -109,7 +139,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         private BeverageTypeEntity ToEntity(BeverageTypeModel model) => mapper.Map<BeverageTypeEntity>(model);
 
-
+        //-----------------------------------------------------------------------------------------
 
     }
 }
