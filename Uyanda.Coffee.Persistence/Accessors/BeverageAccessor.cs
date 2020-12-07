@@ -89,20 +89,20 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
 
 
-            var innerJoin = lineItems
+            var purchase = lineItems
                 .Select(c => new LineItemEntity { 
                     BeverageSizeCostId = c.BeverageSizeCostId,
                     Count = c.Count,
                     CostPerItem = costPerItem[c.BeverageSizeCostId]
                 });
             
-            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = innerJoin.ToArray()};
+            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = purchase.ToArray()};
 
             localDbContext.Invoice.Add(invoice);
 
             await localDbContext.SaveChangesAsync();
            
-            return innerJoin.Select(ToModel);
+            return purchase.Select(ToModel);
         }
 
 
