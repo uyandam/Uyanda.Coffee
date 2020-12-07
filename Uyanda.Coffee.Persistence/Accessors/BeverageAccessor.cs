@@ -83,7 +83,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query.Select(ToModel);
         }
 
-        public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<PurchaseModel> lineItems)
+        public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
         {
             var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
                 .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);

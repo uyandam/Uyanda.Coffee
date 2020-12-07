@@ -6,6 +6,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
     public class PurchaseCommand
     {
-        public IEnumerable<PurchaseModel> LineItems { get; set; }
+        public IEnumerable<LineItemModel> LineItems { get; set; }
     }
 }
