@@ -102,7 +102,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             await localDbContext.SaveChangesAsync();
            
-            return purchase.Select(ToModel);
+            return purchase.Select(ToModel).ToArray();
         }
 
 
