@@ -96,9 +96,6 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
             catch (Exception e)
             {
-                Console.WriteLine("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-                Console.WriteLine(e);
-                Console.WriteLine("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
                 return StatusCode(500, e);
             }
         }

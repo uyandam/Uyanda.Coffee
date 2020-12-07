@@ -86,29 +86,23 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<PurchaseModel> lineItems)
         {
             var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { Id = c.Id, Cost = c.Cost }).ToArrayAsync();
+                .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
 
-            var innerJoin = lineItems.Join(
-                costPerItem,
-                item => item.BeverageSizeCostId,
-                price => price.Id,
-                (item, price) => new LineItemModel
-                    {
-                        BeverageSizeCostId = item.BeverageSizeCostId,
-                        Count = item.Count,
-                        CostPerItem = price.Cost
-                    }
-                );
+
+            var innerJoin = lineItems
+                .Select(c => new LineItemEntity { 
+                    BeverageSizeCostId = c.BeverageSizeCostId,
+                    Count = c.Count,
+                    CostPerItem = costPerItem[c.BeverageSizeCostId]
+                });
             
-            var query = innerJoin.Select(ToEntity);
-            
-            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = query.ToArray()};
+            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = innerJoin.ToArray()};
 
             localDbContext.Invoice.Add(invoice);
 
             await localDbContext.SaveChangesAsync();
            
-            return query.Select(ToModel);
+            return innerJoin.Select(ToModel);
         }
 
 
