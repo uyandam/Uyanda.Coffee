@@ -14,5 +14,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         Task<AvailableCoffeeCupResult> AvailableCoffeeCupsAsync();
 
         Task<AddBeverageCostResult> AddBeverageCostAsync(AddBeverageCostCommand command);
+
+        Task<GetBeverageCostResult> GetBeverageCostAsync();
     }
 }
