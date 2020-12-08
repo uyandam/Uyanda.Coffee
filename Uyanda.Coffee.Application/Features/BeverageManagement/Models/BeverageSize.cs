@@ -4,10 +4,12 @@ using System.Text;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 {
-    public class BeverageSizeModel
+    public enum BeverageSize
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
+        Small,
+        Medium,
+        Grande,
+        Single,
+        Double
     }
 }

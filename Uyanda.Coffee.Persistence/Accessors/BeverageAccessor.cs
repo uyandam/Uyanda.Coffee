@@ -6,9 +6,7 @@ using System.Threading.Tasks;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Persistence;
 using Uyanda.Coffee.Persistence.Entities;
-using System;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
-
 
 namespace Uyanda.Coffee.Persistence.Accessors
 {
@@ -77,32 +75,9 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
-                        .Include(row => row.Beverage)
                         .ToArrayAsync();
 
             return query.Select(ToModel);
-        }
-
-        public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
-        {
-            var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
-
-
-            var purchase = lineItems
-                .Select(c => new LineItemEntity { 
-                    BeverageSizeCostId = c.BeverageSizeCostId,
-                    Count = c.Count,
-                    CostPerItem = costPerItem[c.BeverageSizeCostId]
-                });
-            
-            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = purchase.ToArray()};
-
-            localDbContext.Invoice.Add(invoice);
-
-            await localDbContext.SaveChangesAsync();
-           
-            return purchase.Select(ToModel).ToArray();
         }
 
 
@@ -114,26 +89,5 @@ namespace Uyanda.Coffee.Persistence.Accessors
         private BeverageSizeCostModel ToModel(BeverageSizeCostEntity entity) => mapper.Map<BeverageSizeCostModel>(entity);
 
         private BeverageSizeCostEntity ToEntity(BeverageSizeCostModel model) => mapper.Map<BeverageSizeCostEntity>(model);
-
-        //-----------------------------------------------------------------------------------------
-        private LineItemModel ToModel(LineItemEntity entity) => mapper.Map<LineItemModel>(entity);
-
-        private LineItemEntity ToEntity(LineItemModel model) => mapper.Map<LineItemEntity>(model);
-        //-----------------------------------------------------------------------------------------
-        private InvoiceModel ToModel(InvoiceEntity entity) => mapper.Map<InvoiceModel>(entity);
-
-        private InvoiceEntity ToEntity(InvoiceModel model) => mapper.Map<InvoiceEntity>(model);
-
-        //-----------------------------------------------------------------------------------------
-        private BeverageSizeModel ToModel(BeverageSizeEntity entity) => mapper.Map<BeverageSizeModel>(entity);
-
-        private BeverageSizeEntity ToEntity(BeverageSizeModel model) => mapper.Map<BeverageSizeEntity>(model);
-        //-----------------------------------------------------------------------------------------
-        private BeverageTypeModel ToModel(BeverageTypeEntity entity) => mapper.Map<BeverageTypeModel>(entity);
-
-        private BeverageTypeEntity ToEntity(BeverageTypeModel model) => mapper.Map<BeverageTypeEntity>(model);
-
-        //-----------------------------------------------------------------------------------------
-
     }
 }

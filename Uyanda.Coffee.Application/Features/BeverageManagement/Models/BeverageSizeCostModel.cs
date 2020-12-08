@@ -10,13 +10,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 
         public int BeverageId { get; set; }
 
-        public int BeverageSizeId { get; set; }
-
         public BeverageModel Beverage { get; set; }
 
         public decimal Cost { get; set; }
 
-        public BeverageSizeModel BeverageSize { get; set; }
+        public BeverageSize BeverageSize { get; set; }
 
     }
 }
