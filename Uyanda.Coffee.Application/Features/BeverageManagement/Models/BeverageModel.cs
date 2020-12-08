@@ -4,10 +4,12 @@
     {
         public int Id { get; set; }
 
+        public int BeverageTypeId { get; set; }
+
         public bool IsActive { get; set; }
 
         public string Name { get; set; }
 
-        public BeverageType BeverageType { get; set; }
+        public BeverageTypeModel BeverageType { get; set; }
     }
 }
