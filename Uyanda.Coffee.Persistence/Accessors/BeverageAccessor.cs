@@ -83,7 +83,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query.Select(ToModel).ToArray();
         }
 
-        public async Task<IEnumerable<InvoiceModel>> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
+        public async Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
         {
             var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
                 .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
@@ -102,7 +102,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             await localDbContext.SaveChangesAsync();
             IEnumerable<InvoiceEntity> result = new[] { invoice };
-            return result.Select(ToModel).ToArray();
+            return result.Select(ToModel).First();
         }
 
 
