@@ -101,8 +101,8 @@ namespace Uyanda.Coffee.Persistence.Accessors
             localDbContext.Invoice.Add(invoice);
 
             await localDbContext.SaveChangesAsync();
-            IEnumerable<InvoiceEntity> result = new[] { invoice };
-            return result.Select(ToModel).First();
+
+            return ToModel(invoice);
         }
 
 
