@@ -31,7 +31,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             await localDbContext.SaveChangesAsync();
 
-            return entities.Select(ToModel);
+            return entities.Select(ToModel).ToArray();
         }
 
         public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
@@ -44,7 +44,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             var entities = await dbQuery.ToArrayAsync();
 
-            return entities.Select(ToModel);
+            return entities.Select(ToModel).ToArray();
         }
 
 
@@ -70,7 +70,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             await localDbContext.SaveChangesAsync();
 
-            return entities.Select(ToModel);
+            return entities.Select(ToModel).ToArray();
         }
 
 
@@ -80,10 +80,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
                         .Include(row => row.Beverage)
                         .ToArrayAsync();
 
-            return query.Select(ToModel);
+            return query.Select(ToModel).ToArray();
         }
 
-        public async Task<IEnumerable<LineItemModel>> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
+        public async Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
         {
             var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
                 .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
@@ -101,8 +101,8 @@ namespace Uyanda.Coffee.Persistence.Accessors
             localDbContext.Invoice.Add(invoice);
 
             await localDbContext.SaveChangesAsync();
-           
-            return purchase.Select(ToModel).ToArray();
+
+            return ToModel(invoice);
         }
 
 

@@ -42,14 +42,14 @@ namespace Uyanda.Coffee.Persistence
             });
 
             modelBuilder.Entity<BeverageTypeEntity>().HasData(
-                new BeverageTypeEntity { Id = 1, Name="Hot"},
-                new BeverageTypeEntity { Id = 2, Name="Cold"}
+                new BeverageTypeEntity { Id = 1, Name = "Hot"},
+                new BeverageTypeEntity { Id = 2, Name = "Cold"}
                 );
 
             modelBuilder.Entity<BeverageSizeEntity>().HasData(
-                new BeverageSizeEntity { Id = 1, Name="Small"},
-                new BeverageSizeEntity { Id = 2, Name="Medium"},
-                new BeverageSizeEntity { Id = 3, Name= "Large"}
+                new BeverageSizeEntity { Id = 1, Name = "Small"},
+                new BeverageSizeEntity { Id = 2, Name = "Medium"},
+                new BeverageSizeEntity { Id = 3, Name = "Large"}
                 );
 
             modelBuilder.Entity<BeverageEntity>().HasData(
