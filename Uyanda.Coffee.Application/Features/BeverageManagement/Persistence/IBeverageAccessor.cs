@@ -7,11 +7,8 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
 {
     public interface IBeverageAccessor
     {
-        Task<IEnumerable<BeverageModel>> AddBeveragesAsync(IEnumerable<BeverageModel> beverages);
-        Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages);
-        Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync();
-        Task<IEnumerable<BeverageSizeCostModel>> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices);
-        Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync();
+        Task<BeverageSizeCostModel[]> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices);
+        Task<BeverageSizeCostModel[]> GetBeverageCostAsync();
         Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems);
     } 
 }
