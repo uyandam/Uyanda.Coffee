@@ -23,49 +23,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
             this.mapper = mapper;
         }
 
-        public async Task<IEnumerable<BeverageModel>> AddBeveragesAsync(IEnumerable<BeverageModel> beverages)
+     
+
+        public async Task<BeverageSizeCostModel[]> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices)
         {
-            var entities = beverages.Select(ToEntity);
-
-            localDbContext.Beverages.AddRange(entities);
-
-            await localDbContext.SaveChangesAsync();
-
-            return entities.Select(ToModel).ToArray();
-        }
-
-        public async Task<IEnumerable<BeverageModel>> GetBeveragesAsync(IEnumerable<BeverageModel> beverages)
-        {
-
-            var requestedBeverage = beverages.First().Id;
-            var dbQuery = from b in localDbContext.Beverages.AsNoTracking()
-                          where b.Id == requestedBeverage
-                          select b;
-
-            var entities = await dbQuery.ToArrayAsync();
-
-            return entities.Select(ToModel).ToArray();
-        }
-
-
-        public async Task<IEnumerable<AvailableCoffeeCupModel>> GetCoffeeCupsAsync()
-        {
-           
-            var query = await localDbContext.Beverages.AsNoTracking()
-              .GroupBy(l => l.Name)
-              .Select(g => new
-              AvailableCoffeeCupModel
-              {
-                  Name = g.Key,
-                  Cups = g.Count()
-              }).ToListAsync();
-
-            return query;
-        }
-
-        public async Task<IEnumerable<BeverageSizeCostModel>> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices)
-        {
-            var entities = prices.Select(ToEntity);
+            var entities = prices.Select(ToEntity).ToArray();
             localDbContext.BeverageCost.AddRange(entities);
 
             await localDbContext.SaveChangesAsync();
@@ -74,7 +36,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
         }
 
 
-        public async Task<IEnumerable<BeverageSizeCostModel>> GetBeverageCostAsync()
+        public async Task<BeverageSizeCostModel[]> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
                         .Include(row => row.Beverage)
@@ -86,7 +48,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
         public async Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems)
         {
             var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { Id = c.Id, Cost = c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
+                .Select(c => new { c.Id, c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
 
 
             var purchase = lineItems

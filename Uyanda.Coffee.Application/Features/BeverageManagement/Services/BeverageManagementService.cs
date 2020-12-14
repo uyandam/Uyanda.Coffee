@@ -16,29 +16,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             this.beverageAccessor = beverageAccessor;
         }
 
-        public async Task<AddBeveragesResult> AddBeveragesAsync(AddBeveragesCommand command)
-        {
-            var result = await beverageAccessor.AddBeveragesAsync(command.Beverages);
-
-            return new AddBeveragesResult { Beverages = result };
-        }
-
-        public async Task<GetBeveragesResult> GetBeveragesAsync(GetBeveragesQuery query)
-        {
-
-            var queryResult = await beverageAccessor.GetBeveragesAsync(query.Beverages);
-
-            return new GetBeveragesResult { Beverages = queryResult };
-        }
-
-
-        public async Task<AvailableCoffeeCupResult> AvailableCoffeeCupsAsync()
-        {
-            var result = await beverageAccessor.GetCoffeeCupsAsync();
-
-            return new AvailableCoffeeCupResult { AvailableCoffeeCups = result};
-        }
-
         public async Task<AddBeverageCostResult> AddBeverageCostAsync(AddBeverageCostCommand command)
         {
             var result = await beverageAccessor.AddBeverageCostAsync(command.Prices);
