@@ -67,6 +67,56 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(invoice);
         }
 
+        public async Task<BeverageSizeCostModel[]> AddBeverageSizeCostAsync(BeverageSizeCostModel price)
+        {
+          
+            var beverageDictionary = await localDbContext.Beverages.AsNoTracking()
+                .Select(c => new { c.Id, c.Name }).ToDictionaryAsync(c=>c.Id, c=>c.Name);
+
+            if (!beverageDictionary.ContainsValue(price.Beverage.Name))
+            {
+                localDbContext.BeverageCost.Add(ToEntity(price));
+
+                await localDbContext.SaveChangesAsync();
+
+                var result = await localDbContext.BeverageCost.AsNoTracking().Select(c => c).ToArrayAsync();
+
+                return result.Select(ToModel).ToArray();
+            }
+
+            var beverageSizeDictionary = localDbContext.BeverageCost.AsNoTracking()
+                .Where(x => x.Beverage.Name == price.Beverage.Name)
+                .Select(c => new { c.BeverageSizeId, c.BeverageSize.Name }).ToDictionary(b => b.BeverageSizeId, b => b.Name);
+
+            if(beverageSizeDictionary.ContainsKey(price.BeverageSizeId))
+            {
+
+                var record = await localDbContext.BeverageCost
+                    .SingleOrDefaultAsync(c => c.BeverageSizeId == price.BeverageSizeId && c.Beverage.Name == price.Beverage.Name);
+
+                record.Cost = price.Cost;
+
+                await localDbContext.SaveChangesAsync();
+                    
+            }
+            else
+            {
+
+                price.BeverageId = beverageDictionary.FirstOrDefault(x => x.Value == price.Beverage.Name).Key;
+
+                price.Beverage = null;
+                    
+                await localDbContext.AddAsync(ToEntity(price));
+
+                await localDbContext.SaveChangesAsync();
+               
+            }
+
+
+            var query = await localDbContext.BeverageCost.AsNoTracking().Select(c => c).ToArrayAsync();
+
+            return query.Select(ToModel).ToArray();
+        }
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 

@@ -5,8 +5,8 @@ using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results
 {
-    public class AvailableCoffeeCupResult
+    public class AddBeverageSizeCostResult
     {
-        public IEnumerable<AvailableCoffeeCupModel> AvailableCoffeeCups { get; set; }
+        public IEnumerable<BeverageSizeCostModel> Prices { get; set; }
     }
 }

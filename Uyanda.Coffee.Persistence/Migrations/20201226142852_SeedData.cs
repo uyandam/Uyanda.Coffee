@@ -11,7 +11,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 name: "Data");
 
             migrationBuilder.CreateTable(
-                name: "BeverageSizeEntity",
+                name: "BeverageSizes",
                 schema: "Data",
                 columns: table => new
                 {
@@ -21,7 +21,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BeverageSizeEntity", x => x.Id);
+                    table.PrimaryKey("PK_BeverageSizes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -97,10 +97,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_BeverageCost_BeverageSizeEntity_BeverageSizeId",
+                        name: "FK_BeverageCost_BeverageSizes_BeverageSizeId",
                         column: x => x.BeverageSizeId,
                         principalSchema: "Data",
-                        principalTable: "BeverageSizeEntity",
+                        principalTable: "BeverageSizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -138,7 +138,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "Data",
-                table: "BeverageSizeEntity",
+                table: "BeverageSizes",
                 columns: new[] { "Id", "Name" },
                 values: new object[,]
                 {
@@ -242,7 +242,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 schema: "Data");
 
             migrationBuilder.DropTable(
-                name: "BeverageSizeEntity",
+                name: "BeverageSizes",
                 schema: "Data");
 
             migrationBuilder.DropTable(

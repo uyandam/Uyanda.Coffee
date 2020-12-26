@@ -7,12 +7,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
     public interface IBeverageManagementService
     {
-        
-
         Task<AddBeverageCostResult> AddBeverageCostAsync(AddBeverageCostCommand command);
 
         Task<GetBeverageCostResult> GetBeverageCostAsync();
 
         Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase);
+
+        Task<AddBeverageSizeCostResult> AddBeverageSizeCostAsync(AddBeverageSizeCostCommand costSize);
     }
 }
