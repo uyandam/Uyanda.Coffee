@@ -67,10 +67,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(invoice);
         }
 
-        public async Task<BeverageSizeCostModel[]> AddBeverageSizeCostAsync(BeverageSizeCostModel price)
+        public async Task<BeverageSizeCostModel[]> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
         {
           
             var beverageDictionary = await localDbContext.Beverages.AsNoTracking()
+                .Where(d => d.Name == price.Beverage.Name)
                 .Select(c => new { c.Id, c.Name }).ToDictionaryAsync(c=>c.Id, c=>c.Name);
 
             if (!beverageDictionary.ContainsValue(price.Beverage.Name))

@@ -7,7 +7,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
     public class AddBeverageSizeCostCommand
     {
-
         public BeverageSizeCostModel Price { get; set; }
     }
 }
