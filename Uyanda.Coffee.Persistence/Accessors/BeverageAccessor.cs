@@ -81,8 +81,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     .SingleAsync();
 
                 beveragePrice.Beverage.Name = price.Beverage.Name;
+
                 beveragePrice.Cost = price.Cost;
+
                 beveragePrice.Beverage.IsActive = price.Beverage.IsActive;
+
                 beveragePrice.BeverageSizeId = price.BeverageSizeId;
 
                 await localDbContext.SaveChangesAsync();
