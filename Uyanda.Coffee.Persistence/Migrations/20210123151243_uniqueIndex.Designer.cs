@@ -10,8 +10,8 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20201226142852_SeedData")]
-    partial class SeedData
+    [Migration("20210123151243_uniqueIndex")]
+    partial class uniqueIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,9 +86,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeverageId");
-
                     b.HasIndex("BeverageSizeId");
+
+                    b.HasIndex("BeverageId", "BeverageSizeId")
+                        .IsUnique();
 
                     b.ToTable("BeverageCost");
 

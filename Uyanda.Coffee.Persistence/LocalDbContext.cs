@@ -43,6 +43,11 @@ namespace Uyanda.Coffee.Persistence
                 entity.ToTable("Beverage");
             });
 
+
+            modelBuilder.Entity<BeverageSizeCostEntity>()
+                .HasIndex(c => new { c.BeverageId, c.BeverageSizeId })
+                .IsUnique();
+
             modelBuilder.Entity<BeverageTypeEntity>().HasData(
                 new BeverageTypeEntity { Id = 1, Name = "Hot"},
                 new BeverageTypeEntity { Id = 2, Name = "Cold"}
