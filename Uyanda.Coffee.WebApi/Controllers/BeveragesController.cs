@@ -68,16 +68,15 @@ namespace Uyanda.Coffee.WebApi.Controllers
         }
 
         [HttpPost("AddBeverageSizeCost")]
-        public async Task<IActionResult> UpsertBeverageSizeCostAsync([FromBody] AddBeverageSizeCostCommand command)
+        public async Task UpsertBeverageSizeCostAsync([FromBody] AddBeverageSizeCostCommand command)
         {
             try
             {
-                var result = await beverageManagementService.UpsertBeverageSizeCostAsync(command);
-                return Ok(result);
+                await beverageManagementService.UpsertBeverageSizeCostAsync(command);
             }
             catch (Exception e)
             {
-                return StatusCode(500, e);
+                StatusCode(500, e);
             }
         }
     }

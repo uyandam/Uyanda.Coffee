@@ -67,56 +67,56 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(invoice);
         }
 
-        public async Task<BeverageSizeCostModel[]> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
+        public async Task UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
         {
-          
-            var beverageDictionary = await localDbContext.Beverages.AsNoTracking()
-                .Where(d => d.Name == price.Beverage.Name)
-                .Select(c => new { c.Id, c.Name }).ToDictionaryAsync(c=>c.Id, c=>c.Name);
+          //update price
 
-            if (!beverageDictionary.ContainsValue(price.Beverage.Name))
+            
+                
+            if (price.Id > 0)
             {
-                localDbContext.BeverageCost.Add(ToEntity(price));
+                var beveragePrice = await localDbContext.BeverageCost
+                    .Where(c => c.Id == price.Id)
+                    .Include(d => d.Beverage)
+                    .SingleAsync();
+
+                beveragePrice.Beverage.Name = price.Beverage.Name;
+                beveragePrice.Cost = price.Cost;
+                beveragePrice.Beverage.IsActive = price.Beverage.IsActive;
+                beveragePrice.BeverageSizeId = price.BeverageSizeId;
 
                 await localDbContext.SaveChangesAsync();
 
-                var result = await localDbContext.BeverageCost.AsNoTracking().Select(c => c).ToArrayAsync();
-
-                return result.Select(ToModel).ToArray();
+                return;
             }
 
-            var beverageSizeDictionary = localDbContext.BeverageCost.AsNoTracking()
-                .Where(x => x.Beverage.Name == price.Beverage.Name)
-                .Select(c => new { c.BeverageSizeId, c.BeverageSize.Name }).ToDictionary(b => b.BeverageSizeId, b => b.Name);
 
-            if(beverageSizeDictionary.ContainsKey(price.BeverageSizeId))
+            if(price.BeverageId == 0)
             {
+                await localDbContext.BeverageCost.AddAsync(ToEntity(price));
 
-                var record = await localDbContext.BeverageCost
-                    .SingleOrDefaultAsync(c => c.BeverageSizeId == price.BeverageSizeId && c.Beverage.Name == price.Beverage.Name);
+                localDbContext.SaveChanges();
 
-                record.Cost = price.Cost;
-
-                await localDbContext.SaveChangesAsync();
-                    
+                return;
             }
-            else
+
+            var isBeverageAvailable = await localDbContext.BeverageCost.AsNoTracking()
+                .Where(c => c.BeverageId == price.BeverageId)
+                .AnyAsync();
+
+            if(isBeverageAvailable)
             {
-
-                price.BeverageId = beverageDictionary.FirstOrDefault(x => x.Value == price.Beverage.Name).Key;
-
                 price.Beverage = null;
-                    
-                await localDbContext.AddAsync(ToEntity(price));
+
+                await localDbContext.BeverageCost.AddAsync(ToEntity(price));
 
                 await localDbContext.SaveChangesAsync();
-               
+
+                return;
             }
 
+            return;
 
-            var query = await localDbContext.BeverageCost.AsNoTracking().Select(c => c).ToArrayAsync();
-
-            return query.Select(ToModel).ToArray();
         }
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);

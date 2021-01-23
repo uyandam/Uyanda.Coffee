@@ -13,6 +13,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase);
 
-        Task<AddBeverageSizeCostResult> UpsertBeverageSizeCostAsync(AddBeverageSizeCostCommand costSize);
+        Task UpsertBeverageSizeCostAsync(AddBeverageSizeCostCommand costSize);
     }
 }
