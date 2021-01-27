@@ -67,7 +67,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(invoice);
         }
 
-        public async Task UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
+        public async Task<BeverageSizeCostModel> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
         {
           //update price
 
@@ -90,7 +90,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 await localDbContext.SaveChangesAsync();
 
-                return;
+                return ToModel(beveragePrice);
             }
 
 
@@ -100,7 +100,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 localDbContext.SaveChanges();
 
-                return;
+                return price;
             }
 
             var isBeverageAvailable = await localDbContext.BeverageCost.AsNoTracking()
@@ -115,10 +115,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 await localDbContext.SaveChangesAsync();
 
-                return;
+                return price;
             }
 
-            return;
+            throw new UpsertSizeCostCommandException();
 
         }
 

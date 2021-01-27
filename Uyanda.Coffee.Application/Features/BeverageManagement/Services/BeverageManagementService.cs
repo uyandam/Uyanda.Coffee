@@ -39,9 +39,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new PurchaseResult { LineItems = result};
         }
 
-        public async Task UpsertBeverageSizeCostAsync(AddBeverageSizeCostCommand costSize)
+        public async Task<UpsertBeverageSizeCostResult> UpsertBeverageSizeCostAsync(UpsertBeverageSizeCostCommand costSize)
         {
-            await beverageAccessor.UpsertBeverageSizeCostAsync(costSize.Price);
+            var result = await beverageAccessor.UpsertBeverageSizeCostAsync(costSize.Price);
+
+            return new UpsertBeverageSizeCostResult { Price = result };
         }
     }
 }
