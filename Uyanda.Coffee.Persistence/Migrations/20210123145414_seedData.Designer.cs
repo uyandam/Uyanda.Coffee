@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uyanda.Coffee.Persistence;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    partial class LocalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210123145414_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,10 +86,9 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeverageSizeId");
+                    b.HasIndex("BeverageId");
 
-                    b.HasIndex("BeverageId", "BeverageSizeId")
-                        .IsUnique();
+                    b.HasIndex("BeverageSizeId");
 
                     b.ToTable("BeverageCost");
 

@@ -1,12 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results
 {
-    public class AvailableCoffeeCupResult
+    public class UpsertBeverageSizeCostResult
     {
-        public IEnumerable<AvailableCoffeeCupModel> AvailableCoffeeCups { get; set; }
+        public BeverageSizeCostModel Price { get; set; }
+
+        public UpsertSizeCostCommandException Error { get; set; }
     }
 }

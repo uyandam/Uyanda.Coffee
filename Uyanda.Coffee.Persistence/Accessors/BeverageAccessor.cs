@@ -67,6 +67,60 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(invoice);
         }
 
+        public async Task<BeverageSizeCostModel> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price)
+        {
+          //update price
+
+            
+                
+            if (price.Id > 0)
+            {
+                var beveragePrice = await localDbContext.BeverageCost
+                    .Where(c => c.Id == price.Id)
+                    .Include(d => d.Beverage)
+                    .SingleAsync();
+
+                beveragePrice.Beverage.Name = price.Beverage.Name;
+
+                beveragePrice.Cost = price.Cost;
+
+                beveragePrice.Beverage.IsActive = price.Beverage.IsActive;
+
+                beveragePrice.BeverageSizeId = price.BeverageSizeId;
+
+                await localDbContext.SaveChangesAsync();
+
+                return ToModel(beveragePrice);
+            }
+
+
+            if(price.BeverageId == 0)
+            {
+                await localDbContext.BeverageCost.AddAsync(ToEntity(price));
+
+                localDbContext.SaveChanges();
+
+                return price;
+            }
+
+            var isBeverageAvailable = await localDbContext.BeverageCost.AsNoTracking()
+                .Where(c => c.BeverageId == price.BeverageId)
+                .AnyAsync();
+
+            if(isBeverageAvailable)
+            {
+                price.Beverage = null;
+
+                await localDbContext.BeverageCost.AddAsync(ToEntity(price));
+
+                await localDbContext.SaveChangesAsync();
+
+                return price;
+            }
+
+            throw new UpsertSizeCostCommandException();
+
+        }
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 

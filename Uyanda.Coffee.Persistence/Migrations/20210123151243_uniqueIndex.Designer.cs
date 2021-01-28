@@ -10,8 +10,8 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20201204195924_SeedData")]
-    partial class SeedData
+    [Migration("20210123151243_uniqueIndex")]
+    partial class uniqueIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -86,9 +86,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BeverageId");
-
                     b.HasIndex("BeverageSizeId");
+
+                    b.HasIndex("BeverageId", "BeverageSizeId")
+                        .IsUnique();
 
                     b.ToTable("BeverageCost");
 
@@ -170,7 +171,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("BeverageSizeEntity");
+                    b.ToTable("BeverageSizes");
 
                     b.HasData(
                         new
@@ -293,7 +294,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .IsRequired();
 
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", null)
-                        .WithMany("LineItem")
+                        .WithMany("LineItems")
                         .HasForeignKey("InvoiceEntityId");
                 });
 #pragma warning restore 612, 618

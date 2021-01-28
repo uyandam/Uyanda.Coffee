@@ -4,6 +4,7 @@ using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
@@ -38,5 +39,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new PurchaseResult { LineItems = result};
         }
 
+        public async Task<UpsertBeverageSizeCostResult> UpsertBeverageSizeCostAsync(UpsertBeverageSizeCostCommand costSize)
+        {
+            var result = await beverageAccessor.UpsertBeverageSizeCostAsync(costSize.Price);
+
+            return new UpsertBeverageSizeCostResult { Price = result };
+        }
     }
 }
