@@ -122,6 +122,73 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         }
 
+        public async Task<InvoiceModel> UpsertCustomerPurchaseAsync(InvoiceModel invoice)
+        {
+            var isPhoneNumberFound = await localDbContext.Users.AsNoTracking()
+                .Where(c => c.PhoneNumber == invoice.User.PhoneNumber)
+                .AnyAsync();
+
+            if(isPhoneNumberFound)
+            {
+                var pointsQuery = await localDbContext.Users
+                    .Where(c => c.PhoneNumber == invoice.User.PhoneNumber)
+                    .SingleAsync();
+
+                pointsQuery.Points += invoice.User.Points;
+
+                invoice.UserId = pointsQuery.Id;
+
+                await localDbContext.SaveChangesAsync();
+
+                invoice.User = null;
+
+                var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
+                .Select(c => new { c.Id, c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
+
+                var sizeCostIds = invoice.LineItems
+                    .Select(c => new LineItemModel
+                    { 
+                        BeverageSizeCostId = c.BeverageSizeCostId,
+                        Count = c.Count,
+                        CostPerItem = costPerItem[c.BeverageSizeCostId]
+                    })
+                    .ToArray();
+
+                invoice.LineItems = sizeCostIds.ToArray();
+
+                await localDbContext.AddAsync(ToEntity(invoice));
+
+                await localDbContext.SaveChangesAsync();
+
+                return invoice;
+            }
+            else
+            {
+                var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
+                    .Select(c => new { c.Id, c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
+
+                var sizeCostIds = invoice.LineItems
+                    .Select(c => new LineItemModel
+                    {
+                        BeverageSizeCostId = c.BeverageSizeCostId,
+                        Count = c.Count,
+                        CostPerItem = costPerItem[c.BeverageSizeCostId]
+                    })
+                    .ToArray();
+
+                invoice.LineItems = sizeCostIds.ToArray();
+
+                invoice.Date = DateTime.Now;
+
+                await localDbContext.AddAsync(ToEntity(invoice));
+
+                await localDbContext.SaveChangesAsync();
+
+                return invoice;
+            }
+
+        }
+
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
         private BeverageEntity ToEntity(BeverageModel model) => mapper.Map<BeverageEntity>(model);
@@ -149,6 +216,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         private BeverageTypeEntity ToEntity(BeverageTypeModel model) => mapper.Map<BeverageTypeEntity>(model);
 
+        //-----------------------------------------------------------------------------------------
+        private UserModel ToModel(UserEntity entity) => mapper.Map<UserModel>(entity);
+
+        private UserEntity ToEntity(UserModel model) => mapper.Map<UserEntity>(model);
         //-----------------------------------------------------------------------------------------
 
     }

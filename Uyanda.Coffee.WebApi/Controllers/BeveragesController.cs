@@ -80,5 +80,20 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost("CustomerPurchase")]
+        public async Task<IActionResult> UpsertCustomerPurchaseAsync ([FromBody] CustomerPurchaseCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.UpsertCustomerPurchaseAsync(command);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
     }
 }

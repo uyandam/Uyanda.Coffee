@@ -11,5 +11,9 @@ namespace Uyanda.Coffee.Persistence.Entities
         public DateTime Date { get; set; }
 
         public IEnumerable<LineItemEntity> LineItems { get; set; }
+
+        public int UserId { get; set; }
+
+        public UserEntity User { get; set; }
     }
 }

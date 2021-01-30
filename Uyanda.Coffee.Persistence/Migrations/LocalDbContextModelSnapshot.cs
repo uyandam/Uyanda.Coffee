@@ -226,7 +226,12 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Invoice");
                 });
@@ -259,6 +264,28 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.ToTable("LineItem");
                 });
 
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.UserEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("Points")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageTypeEntity", "BeverageType")
@@ -279,6 +306,15 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageSizeEntity", "BeverageSize")
                         .WithMany()
                         .HasForeignKey("BeverageSizeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", b =>
+                {
+                    b.HasOne("Uyanda.Coffee.Persistence.Entities.UserEntity", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
