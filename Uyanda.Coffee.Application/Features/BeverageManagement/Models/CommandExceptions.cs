@@ -4,9 +4,9 @@ using System.Text;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 {
-    public class UpsertSizeCostCommandException: Exception
+    public class CommandExceptions: Exception
     {
-        public UpsertSizeCostCommandException()
+        public CommandExceptions()
         {
 
         }

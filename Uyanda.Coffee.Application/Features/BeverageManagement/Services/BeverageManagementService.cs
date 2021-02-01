@@ -52,5 +52,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
             return new CustomerPurchaseResult { Invoice = result };
         }
+
+        public async Task<RedeemPointsPurchaseResult> PurchaseRedeemPointsAsync(RedeemPointsPurchaseCommand purchase)
+        {
+            var result = await beverageAccessor.PurchaseRedeemPointsAsync(purchase.Invoice);
+
+            return new RedeemPointsPurchaseResult { Invoice = result };
+        }
     }
 }

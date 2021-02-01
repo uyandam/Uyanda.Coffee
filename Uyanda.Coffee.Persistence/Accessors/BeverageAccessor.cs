@@ -118,7 +118,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 return price;
             }
 
-            throw new UpsertSizeCostCommandException();
+            throw new CommandExceptions();
 
         }
 
@@ -186,6 +186,46 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 return invoice;
             }
+
+        }
+
+        public async Task<InvoiceModel> PurchaseRedeemPointsAsync(InvoiceModel invoice)
+        {
+            var user = await localDbContext.Users
+                .Where(c => c.Id == invoice.User.Id)
+                .SingleAsync();
+
+            var lineItems = invoice.LineItems;
+
+            var count = lineItems
+                .Select(c => c.Count)
+                .Single();
+
+            if (user.Points >= count * invoice.User.Points)
+            {
+                user.Points -= count * invoice.User.Points;
+
+                var entityItems = lineItems.Select(ToEntity).ToList();
+
+                var newInvoice = new InvoiceEntity
+                    {
+                        Date = DateTime.Now,
+                        LineItems = entityItems,
+                        UserId = user.Id
+                    };
+
+                await localDbContext.AddAsync(newInvoice);
+
+                await localDbContext.SaveChangesAsync();
+
+                return ToModel(newInvoice);
+            }
+            else
+            {
+                throw new InvalidOperationException("Insufficient points");
+            }
+
+            throw new InvalidOperationException("Error logic");
 
         }
 

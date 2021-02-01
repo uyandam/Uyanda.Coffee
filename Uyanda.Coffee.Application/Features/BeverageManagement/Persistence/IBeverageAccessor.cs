@@ -16,5 +16,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
         Task<BeverageSizeCostModel> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price);
 
         Task<InvoiceModel> UpsertCustomerPurchaseAsync(InvoiceModel invoice);
+
+        Task<InvoiceModel> PurchaseRedeemPointsAsync(InvoiceModel invoice);
     } 
 }

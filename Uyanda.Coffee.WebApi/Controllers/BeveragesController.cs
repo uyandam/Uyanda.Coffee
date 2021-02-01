@@ -95,5 +95,20 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
+        [HttpPost("RedeemPoints")]
+        public async Task<IActionResult> RedeemPointsPurchaseAsync([FromBody] RedeemPointsPurchaseCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.PurchaseRedeemPointsAsync(command);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
     }
 }
