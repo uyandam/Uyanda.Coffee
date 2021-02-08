@@ -26,7 +26,7 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<BeverageSizeEntity> BeverageSizes { get; set; }
 
-        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<CustomerEntity> Customer { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -50,9 +50,14 @@ namespace Uyanda.Coffee.Persistence
                 .HasIndex(c => new { c.BeverageId, c.BeverageSizeId })
                 .IsUnique();
 
-            modelBuilder.Entity<UserEntity>()
+            modelBuilder.Entity<CustomerEntity>()
                 .HasIndex(c => new { c.PhoneNumber })
                 .IsUnique();
+
+            modelBuilder.Entity<CustomerEntity>().HasData(
+                new CustomerEntity { Id = 1, PhoneNumber = "0" , Points = 0}
+                );
+
 
             modelBuilder.Entity<BeverageTypeEntity>().HasData(
                 new BeverageTypeEntity { Id = 1, Name = "Hot"},

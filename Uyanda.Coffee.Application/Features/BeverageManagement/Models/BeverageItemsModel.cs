@@ -4,11 +4,13 @@ using System.Text;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 {
-    public class UserModel
+    public class BeverageItemsModel
     {
-        public int Id { get; set; }
+        public int BeverageSizeCostId { get; set; }
 
-        public string PhoneNumber { get; set; }
+        public int Count { get; set; }
+
+        public int CustomerId { get; set; }
 
         public int Points { get; set; }
     }

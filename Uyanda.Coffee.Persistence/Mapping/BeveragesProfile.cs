@@ -26,8 +26,8 @@ namespace Uyanda.Coffee.Persistence.Mapping
             CreateMap<BeverageTypeModel, BeverageTypeEntity>();
             CreateMap<BeverageTypeEntity, BeverageTypeModel>();
 
-            CreateMap<UserModel, UserEntity>();
-            CreateMap<UserEntity, UserModel>();
+            CreateMap<CustomerModel, CustomerEntity>();
+            CreateMap<CustomerEntity, CustomerModel>();
         }
     }
 }

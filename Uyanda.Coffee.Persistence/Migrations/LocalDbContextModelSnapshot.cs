@@ -216,6 +216,36 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.CustomerEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<decimal>("Points")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PhoneNumber")
+                        .IsUnique()
+                        .HasFilter("[PhoneNumber] IS NOT NULL");
+
+                    b.ToTable("Customer");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            PhoneNumber = "0",
+                            Points = 0m
+                        });
+                });
+
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -223,15 +253,15 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("CustomerId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("CustomerId");
 
                     b.ToTable("Invoice");
                 });
@@ -264,28 +294,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.ToTable("LineItem");
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.UserEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("Points")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PhoneNumber")
-                        .IsUnique()
-                        .HasFilter("[PhoneNumber] IS NOT NULL");
-
-                    b.ToTable("Users");
-                });
-
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageTypeEntity", "BeverageType")
@@ -312,9 +320,9 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", b =>
                 {
-                    b.HasOne("Uyanda.Coffee.Persistence.Entities.UserEntity", "User")
+                    b.HasOne("Uyanda.Coffee.Persistence.Entities.CustomerEntity", "Customer")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

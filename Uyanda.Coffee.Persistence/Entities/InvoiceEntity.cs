@@ -12,8 +12,8 @@ namespace Uyanda.Coffee.Persistence.Entities
 
         public IEnumerable<LineItemEntity> LineItems { get; set; }
 
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
 
-        public UserEntity User { get; set; }
+        public CustomerEntity Customer { get; set; }
     }
 }

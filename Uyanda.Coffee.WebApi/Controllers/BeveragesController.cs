@@ -31,6 +31,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             try
             {
                 var result = await beverageManagementService.AddBeverageCostAsync(command);
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -45,6 +46,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             try
             {
                 var result = await beverageManagementService.GetBeverageCostAsync();
+
                 return Ok(result);
             }
             catch (Exception e)
@@ -59,6 +61,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             try
             {
                 var result = await beverageManagementService.PurchaseAsync(command);
+
                 return Ok(result);
             }
             catch(Exception e)
@@ -67,26 +70,12 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("AddBeverageSizeCost")]
-        public async Task<IActionResult> UpsertBeverageSizeCostAsync([FromBody] UpsertBeverageSizeCostCommand command)
+        [HttpPost("AddCustomer")]
+        public async Task<IActionResult> AddCustomerAsync([FromBody] AddCustomerCommand command)
         {
             try
             {
-                var result = await beverageManagementService.UpsertBeverageSizeCostAsync(command);
-                return Ok(result);
-            }
-            catch (Exception e)
-            {
-                return StatusCode(500, e);
-            }
-        }
-
-        [HttpPost("CustomerPurchase")]
-        public async Task<IActionResult> UpsertCustomerPurchaseAsync ([FromBody] CustomerPurchaseCommand command)
-        {
-            try
-            {
-                var result = await beverageManagementService.UpsertCustomerPurchaseAsync(command);
+                var result = await beverageManagementService.AddCustomerAsync(command);
 
                 return Ok(result);
             }
@@ -96,12 +85,12 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("RedeemPoints")]
-        public async Task<IActionResult> RedeemPointsPurchaseAsync([FromBody] RedeemPointsPurchaseCommand command)
+        [HttpPost("GetCustomerId")]
+        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerIdCommand command)
         {
             try
             {
-                var result = await beverageManagementService.PurchaseRedeemPointsAsync(command);
+                var result = await beverageManagementService.GetCustomerIdAsync(command);
 
                 return Ok(result);
             }
@@ -110,5 +99,6 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return StatusCode(500, e);
             }
         }
+
     }
 }

@@ -11,12 +11,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
 
         Task<BeverageSizeCostModel[]> GetBeverageCostAsync();
 
-        Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems);
+        Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer, bool IsRedeemingPoints);
 
-        Task<BeverageSizeCostModel> UpsertBeverageSizeCostAsync(BeverageSizeCostModel price);
+        Task<CustomerModel> AddCustomerAsync(CustomerModel customer);
 
-        Task<InvoiceModel> UpsertCustomerPurchaseAsync(InvoiceModel invoice);
+        Task<CustomerModel> GetCustomerIdAsync(CustomerModel customer);
 
-        Task<InvoiceModel> PurchaseRedeemPointsAsync(InvoiceModel invoice);
     } 
 }

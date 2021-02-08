@@ -12,8 +12,8 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 
         public IEnumerable<LineItemModel> LineItems { get; set; }
 
-        public int UserId { get; set; }
+        public int CustomerId { get; set; }
 
-        public UserModel User { get; set; }
+        public CustomerModel Customer { get; set; }
     }
 }
