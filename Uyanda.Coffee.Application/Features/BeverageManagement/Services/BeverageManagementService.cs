@@ -36,7 +36,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         {
             var result = await beverageAccessor.PurchaseAsync(purchase.LineItems, purchase.Customer, purchase.IsRedeemingPoints);
 
-            return new PurchaseResult { LineItems = result};
+            return new PurchaseResult { LineItems = result };
         }
 
         public async Task<AddCustomerResult> AddCustomerAsync(AddCustomerCommand customer)
@@ -46,7 +46,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new AddCustomerResult { Customer = result };
         }
 
-        public async Task<GetCustomerIdResult> GetCustomerIdAsync (GetCustomerIdCommand customer)
+        public async Task<GetCustomerIdResult> GetCustomerIdAsync(GetCustomerIdCommand customer)
         {
             var result = await beverageAccessor.GetCustomerIdAsync(customer.Customer);
 

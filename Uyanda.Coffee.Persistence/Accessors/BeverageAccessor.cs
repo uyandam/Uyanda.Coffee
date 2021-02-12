@@ -48,52 +48,9 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         public async Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer, bool IsRedeemingPoints)
         {
-            /*
-            var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { c.Id, c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
-
-
-            var purchase = lineItems
-                .Select(c => new LineItemEntity { 
-                    BeverageSizeCostId = c.BeverageSizeCostId,
-                    Count = c.Count,
-                    CostPerItem = costPerItem[c.BeverageSizeCostId]
-                });
+            return IsRedeemingPoints ? await DiscountPurchaseAsync(lineItems, customer) : await NormalPurchaseAsync(lineItems, customer);
             
-            var invoice = new InvoiceEntity { Date = DateTime.Now, LineItems = purchase.ToArray()};
-
-            localDbContext.Invoice.Add(invoice);
-
-            await localDbContext.SaveChangesAsync();
-
-            return ToModel(invoice);
-            */
-
-
-            /*if IsRedeemingPoints == false && CustomerId == 0
-             *  return NormalPurchase() 
-             *  
-             * if IsRedeemingPoints == false && CustomerId > 0
-             *  return NormalPurchase() && AddCustomerPoints()
-             * 
-             * if IsRedeemingPoints == true && CustomerId > 0
-             *  return NormalPurchase() && RedeemCustomerPoints()
-             * 
-             * 
-             */
-
-            if (IsRedeemingPoints == false)
-            {
-                return await NormalPurchaseAsync(lineItems, customer);
-            }
-
-            if(IsRedeemingPoints)
-            {
-                return await DiscountPurchaseAsync(lineItems, customer);
-            }
-
             throw new InvalidOperationException("Invalid input");
-
 
         }
 
@@ -115,15 +72,12 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     .Where(c => c.Id == customer.Id)
                     .AnyAsync();
 
-            var costPerItem = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { c.Id, c.Cost }).ToDictionaryAsync(item => item.Id, item => item.Cost);
-
             var purchase = lineItems
                 .Select(c => new LineItemModel
                 {
                     BeverageSizeCostId = c.BeverageSizeCostId,
                     Count = c.Count,
-                    CostPerItem = costPerItem[c.BeverageSizeCostId]
+                    CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
             if (!isUserFound)
@@ -152,7 +106,12 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 customer.Points += earnedPoints;
 
-                await localDbContext.AddAsync(ToEntity(customer));
+                //await localDbContext.AddAsync(ToEntity(customer));
+                var customerRecord = await localDbContext.Customer
+                    .Where(c => c.Id == customer.Id)
+                    .SingleAsync();
+
+                customerRecord.Points += earnedPoints;
 
                 await localDbContext.SaveChangesAsync();
 
@@ -176,6 +135,9 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         private async Task<InvoiceModel> DiscountPurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer)
         {
+            if (customer.Id == 0)
+                throw new InvalidOperationException("Customer Id cannot be 0");
+
             var isUserFound = await localDbContext.Customer
                 .Where(c => c.Id == customer.Id)
                 .AnyAsync();
@@ -188,7 +150,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 .ToDictionaryAsync(item => item.Id, item => item.Cost);
 
             var totalCost = lineItems
-                .Sum(c => c.Count * beveragePrices[c.Id]);
+                .Sum(c => c.Count * beveragePrices[c.BeverageSizeCostId]);
 
             var customerEntity = await localDbContext.Customer
                 .Where(c => c.Id == customer.Id)
@@ -211,12 +173,19 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             customerEntity.Points = discount;
 
-            await localDbContext.SaveChangesAsync();
+            var lineItemModel = lineItems
+                .Select(c => new LineItemModel
+                {
+                    BeverageSizeCostId = c.BeverageSizeCostId,
+                    Count = c.Count,
+                    CostPerItem = beveragePrices[c.BeverageSizeCostId]
+                });
+                
 
             var beverageCost = new InvoiceEntity
             {
                 Date = DateTime.Now,
-                LineItems = lineItems.Select(ToEntity).ToList(),
+                LineItems = lineItemModel.Select(ToEntity).ToList(),
                 CustomerId = customer.Id
             };
 
