@@ -15,5 +15,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
         public int CustomerId { get; set; }
 
         public CustomerModel Customer { get; set; }
+
+        public bool IsRedeemingPoints { get; set; }
+
+        public decimal DiscountedPoints { get; set; }
+
+        public decimal FinalInvoicePrice { get; set; }
     }
 }

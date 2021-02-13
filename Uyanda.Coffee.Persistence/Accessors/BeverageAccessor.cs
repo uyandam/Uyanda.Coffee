@@ -89,7 +89,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 { 
                     Date = DateTime.Now,
                     LineItems = purchase,
-                    CustomerId = 1
+                    CustomerId = 1,
+                    IsRedeemingPoints = false,
+                    DiscountedPoints = 0,
+                    FinalInvoicePrice = totalCost
                 };
 
                 await localDbContext.AddAsync(ToEntity(customerInvoice));
@@ -106,7 +109,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
                 customer.Points += earnedPoints;
 
-                //await localDbContext.AddAsync(ToEntity(customer));
                 var customerRecord = await localDbContext.Customer
                     .Where(c => c.Id == customer.Id)
                     .SingleAsync();
@@ -119,7 +121,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 {
                     Date = DateTime.Now,
                     LineItems = purchase,
-                    CustomerId = customer.Id
+                    CustomerId = customer.Id,
+                    IsRedeemingPoints = false,
+                    DiscountedPoints = 0,
+                    FinalInvoicePrice = totalCost
                 };
 
                 await localDbContext.AddAsync(ToEntity(customerInvoice));
@@ -158,17 +163,22 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
             var discount = customerEntity.Points;
 
-            totalCost -= discount;
+            var availablePoints = customerEntity.Points;
 
-            if (totalCost < 0)
+            var amountPaid = totalCost;
+
+
+            if (availablePoints > totalCost)
             {
-                discount = - totalCost;
+                discount = totalCost;
 
-                totalCost = 0;
+                amountPaid = 0;
             }
             else
             {
-                discount = 0;
+                discount = availablePoints;
+
+                amountPaid = totalCost - availablePoints;
             }
 
             customerEntity.Points = discount;
@@ -186,7 +196,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
             {
                 Date = DateTime.Now,
                 LineItems = lineItemModel.Select(ToEntity).ToList(),
-                CustomerId = customer.Id
+                CustomerId = customer.Id,
+                IsRedeemingPoints = true,
+                DiscountedPoints = discount,
+                FinalInvoicePrice = amountPaid
             };
 
             await localDbContext.AddAsync(beverageCost);

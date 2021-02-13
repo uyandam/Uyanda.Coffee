@@ -15,5 +15,11 @@ namespace Uyanda.Coffee.Persistence.Entities
         public int CustomerId { get; set; }
 
         public CustomerEntity Customer { get; set; }
+
+        public bool IsRedeemingPoints { get; set; }
+
+        public decimal DiscountedPoints { get; set; }
+
+        public decimal FinalInvoicePrice { get; set; }
     }
 }
