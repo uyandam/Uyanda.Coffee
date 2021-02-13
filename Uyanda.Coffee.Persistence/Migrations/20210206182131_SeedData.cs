@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
-    public partial class seedData : Migration
+    public partial class SeedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -39,17 +39,18 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Invoice",
+                name: "Customer",
                 schema: "Data",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(nullable: false)
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    Points = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Invoice", x => x.Id);
+                    table.PrimaryKey("PK_Customer", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -71,6 +72,28 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         column: x => x.BeverageTypeId,
                         principalSchema: "Data",
                         principalTable: "BeverageTypeEntity",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Invoice",
+                schema: "Data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(nullable: false),
+                    CustomerId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Invoice", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Invoice_Customer_CustomerId",
+                        column: x => x.CustomerId,
+                        principalSchema: "Data",
+                        principalTable: "Customer",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -159,6 +182,12 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
             migrationBuilder.InsertData(
                 schema: "Data",
+                table: "Customer",
+                columns: new[] { "Id", "PhoneNumber", "Points" },
+                values: new object[] { 1, "0", 0m });
+
+            migrationBuilder.InsertData(
+                schema: "Data",
                 table: "Beverage",
                 columns: new[] { "Id", "BeverageTypeId", "IsActive", "Name" },
                 values: new object[] { 1, 1, true, "Coffee" });
@@ -199,16 +228,31 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 column: "BeverageTypeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BeverageCost_BeverageId",
-                schema: "Data",
-                table: "BeverageCost",
-                column: "BeverageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_BeverageCost_BeverageSizeId",
                 schema: "Data",
                 table: "BeverageCost",
                 column: "BeverageSizeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_BeverageCost_BeverageId_BeverageSizeId",
+                schema: "Data",
+                table: "BeverageCost",
+                columns: new[] { "BeverageId", "BeverageSizeId" },
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Customer_PhoneNumber",
+                schema: "Data",
+                table: "Customer",
+                column: "PhoneNumber",
+                unique: true,
+                filter: "[PhoneNumber] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Invoice_CustomerId",
+                schema: "Data",
+                table: "Invoice",
+                column: "CustomerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_LineItem_BeverageSizeCostId",
@@ -243,6 +287,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "BeverageSizes",
+                schema: "Data");
+
+            migrationBuilder.DropTable(
+                name: "Customer",
                 schema: "Data");
 
             migrationBuilder.DropTable(
