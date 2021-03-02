@@ -5,7 +5,7 @@ using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
-    public class GetCustomerIdCommand
+    public class GetCustomerCommand
     {
         public CustomerModel Customer { get; set; }
     }

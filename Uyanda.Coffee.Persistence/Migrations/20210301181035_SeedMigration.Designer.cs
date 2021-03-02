@@ -10,8 +10,8 @@ using Uyanda.Coffee.Persistence;
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    [Migration("20210212200335_InvoiceModel")]
-    partial class InvoiceModel
+    [Migration("20210301181035_SeedMigration")]
+    partial class SeedMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

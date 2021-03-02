@@ -40,7 +40,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("getbeveragecost")]
+        [HttpPost("GetBeveragePrices")]
         public async Task<IActionResult> GetBeverageCostAsync()
         {
             try
@@ -85,12 +85,12 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("GetCustomerId")]
-        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerIdCommand command)
+        [HttpPost("GetCustomer")]
+        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerCommand command)
         {
             try
             {
-                var result = await beverageManagementService.GetCustomerIdAsync(command);
+                var result = await beverageManagementService.GetCustomerAsync(command);
 
                 return Ok(result);
             }

@@ -7,6 +7,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results
 {
     public class PurchaseResult
     {
-        public InvoiceModel LineItems { get; set; }
+        public InvoiceModel Invoice { get; set; }
     }
 }

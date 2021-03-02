@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
-    public partial class SeedData : Migration
+    public partial class SeedMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,7 +84,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false)
+                    CustomerId = table.Column<int>(nullable: false),
+                    IsRedeemingPoints = table.Column<bool>(nullable: false),
+                    DiscountedPoints = table.Column<decimal>(nullable: false),
+                    FinalInvoicePrice = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -2,6 +2,7 @@
 using Uyanda.Coffee.Application.Features.BeverageManagement.Persistence;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
+using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System;
@@ -34,9 +35,86 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         public async Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase)
         {
-            var result = await beverageAccessor.PurchaseAsync(purchase.LineItems, purchase.Customer, purchase.IsRedeemingPoints);
+            var beveragePrices = await BeveragePricesAync();
 
-            return new PurchaseResult { LineItems = result };
+            var customer = purchase.Customer;
+
+            var isCustomerFound = await DoesCustomerExistAsync(customer);
+
+            var lineItems = purchase.LineItems;
+
+            var totalCost = lineItems
+                .Sum(c => c.Count * beveragePrices[c.BeverageSizeCostId]);
+
+            var customerInformation = await beverageAccessor.GetCustomerAsync(customer);
+
+            decimal discount = 0;
+
+            if(purchase.IsRedeemingPoints)
+            {
+                if (!isCustomerFound)
+                    throw new InvalidOperationException("Customer not found");
+
+                var availablePoints = customerInformation.Points;
+
+                if(totalCost >= availablePoints)
+                {
+                    discount = availablePoints;
+
+                    totalCost -= availablePoints;
+
+                    availablePoints = 0;
+                }
+                else
+                {
+                    discount = totalCost;
+
+                    availablePoints -= totalCost;
+
+                    totalCost = 0;
+
+                }
+
+                if(customer.Id != 1)
+                await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
+
+                var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost);
+
+                return new PurchaseResult{  Invoice = result };
+
+                // discount purchase
+
+            }
+            
+
+            if(!purchase.IsRedeemingPoints)
+            {
+                // no discount purchase
+
+                
+                
+                    var pointsRatio = 10;
+
+                    var earnedPoints = totalCost / pointsRatio;
+
+                    var customerPoints = customerInformation.Points;
+
+                    var availablePoints = customerPoints + earnedPoints;
+
+                if (customer.Id != 1)
+                    await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
+               
+
+                var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost);
+
+                return new PurchaseResult { Invoice = result };
+            }
+
+
+
+
+
+            throw new InvalidOperationException("invalid operation");
         }
 
         public async Task<AddCustomerResult> AddCustomerAsync(AddCustomerCommand customer)
@@ -46,11 +124,26 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new AddCustomerResult { Customer = result };
         }
 
-        public async Task<GetCustomerIdResult> GetCustomerIdAsync(GetCustomerIdCommand customer)
+        public async Task<GetCustomerResult> GetCustomerAsync(GetCustomerCommand customer)
         {
-            var result = await beverageAccessor.GetCustomerIdAsync(customer.Customer);
+            var result = await beverageAccessor.GetCustomerAsync(customer.Customer);
 
-            return new GetCustomerIdResult { Customer = result };
+            return new GetCustomerResult { Customer = result };
         }
+
+        
+
+        // Private methods
+
+        private async Task<IDictionary<int, decimal>> BeveragePricesAync()
+        {
+            return await beverageAccessor.BeveragePricesAync();
+        }
+
+        public async Task<bool> DoesCustomerExistAsync(CustomerModel customer)
+        {
+            return await beverageAccessor.DoesCustomerExistAsync(customer);
+        }
+
     }
 }
