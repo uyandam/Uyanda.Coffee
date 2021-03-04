@@ -8,7 +8,6 @@
     <Folder Include="Domain\Models\" />
     <Folder Include="Features\AddBeverage\" />
     <Folder Include="Features\Till\" />
-    <Folder Include="Integration\" />
     <Folder Include="Tests\" />
   </ItemGroup>
 

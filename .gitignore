@@ -359,3 +359,8 @@ MigrationBackup/
 # End of https://www.toptal.com/developers/gitignore/api/visualstudio
 
 **/.vs
+
+
+
+#ignore the config files
+*.dev.json

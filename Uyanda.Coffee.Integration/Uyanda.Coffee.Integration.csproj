@@ -4,4 +4,18 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AlphaVantage\DataObjects\" />
+    <Folder Include="AlphaVantage\Mapping\" />
+    <Folder Include="AlphaVantage\Requests\Results\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj" />
+  </ItemGroup>
+
 </Project>
