@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using System.Net.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Uyanda.Coffee.Integration.AlphaVantage.Integrations;
 using Uyanda.Coffee.Application.Integration;

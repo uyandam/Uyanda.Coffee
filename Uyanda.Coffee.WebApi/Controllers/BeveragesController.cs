@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Uyanda.Coffee.WebApi.Controllers
 {
@@ -15,9 +16,13 @@ namespace Uyanda.Coffee.WebApi.Controllers
     {
         private readonly IBeverageManagementService beverageManagementService;
 
-        public BeveragesController(IBeverageManagementService beverageManagementService)
+        private readonly IConfiguration configuration;   
+
+        public BeveragesController(IBeverageManagementService beverageManagementService, IConfiguration configuration)
         {
             this.beverageManagementService = beverageManagementService;
+
+            this.configuration = configuration;
         }
         
 
@@ -46,6 +51,9 @@ namespace Uyanda.Coffee.WebApi.Controllers
             try
             {
                 var result = await beverageManagementService.GetBeverageCostAsync();
+
+                Console.WriteLine("SAUCE ");
+                Console.WriteLine(configuration.GetValue<string>("AlphaVantage:ApiKey"));
 
                 return Ok(result);
             }

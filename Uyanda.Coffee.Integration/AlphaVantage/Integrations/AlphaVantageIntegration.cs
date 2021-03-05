@@ -9,9 +9,6 @@ namespace Uyanda.Coffee.Integration.AlphaVantage.Integrations
 {
     public class AlphaVantageIntegration: IAlphaVantageIntegration
     {
-        public async Task<string> GetExchangeRate()
-        {
-
-        }
+       
     }
 }
