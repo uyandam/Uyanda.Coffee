@@ -6,16 +6,19 @@ using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System;
+using Uyanda.Coffee.Application.Integration;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
     public class BeverageManagementService : IBeverageManagementService
     {
         private readonly IBeverageAccessor beverageAccessor;
+        private readonly IAlphaVantageIntegration alphaVantageIntegration;
 
-        public BeverageManagementService(IBeverageAccessor beverageAccessor)
+        public BeverageManagementService(IBeverageAccessor beverageAccessor, IAlphaVantageIntegration alphaVantageIntegration)
         {
             this.beverageAccessor = beverageAccessor;
+            this.alphaVantageIntegration = alphaVantageIntegration;
         }
 
         public async Task<AddBeverageCostResult> AddBeverageCostAsync(AddBeverageCostCommand command)
@@ -28,6 +31,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         public async Task<GetBeverageCostResult> GetBeverageCostAsync()
         {
+
             var result = await beverageAccessor.GetBeverageCostAsync();
 
             return new GetBeverageCostResult { Prices = result };

@@ -52,9 +52,6 @@ namespace Uyanda.Coffee.WebApi.Controllers
             {
                 var result = await beverageManagementService.GetBeverageCostAsync();
 
-                Console.WriteLine("SAUCE ");
-                Console.WriteLine(configuration.GetValue<string>("AlphaVantage:ApiKey"));
-
                 return Ok(result);
             }
             catch (Exception e)

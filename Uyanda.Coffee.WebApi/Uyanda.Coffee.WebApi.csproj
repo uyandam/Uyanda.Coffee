@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj" />
+    <ProjectReference Include="..\Uyanda.Coffee.Integration\Uyanda.Coffee.Integration.csproj" />
     <ProjectReference Include="..\Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj" />
   </ItemGroup>
 

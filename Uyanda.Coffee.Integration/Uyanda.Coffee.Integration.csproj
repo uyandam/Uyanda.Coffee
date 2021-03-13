@@ -6,12 +6,14 @@
 
   <ItemGroup>
     <Folder Include="AlphaVantage\DataObjects\" />
-    <Folder Include="AlphaVantage\Mapping\" />
     <Folder Include="AlphaVantage\Requests\Results\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

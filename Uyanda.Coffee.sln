@@ -15,7 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5372178B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Persistence", "Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj", "{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
