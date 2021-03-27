@@ -24,13 +24,13 @@ namespace Uyanda.Coffee.Integration.AlphaVantage.Integrations
             this.configuration = configuration;
         }
         
-        public async Task<string> GetExchangeRateAsync()
+        public async Task<string> GetExchangeRateAsync(string currency)
         {
             var apiKey = configuration.GetValue<string>("AlphaVantage:ApiKey");
 
             var client = httpClientFactory.CreateClient();
 
-            var url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=USD&to_currency=ZAR&apikey=" + apiKey;
+            var url = "https://www.alphavantage.co/query?function=CURRENCY_EXCHANGE_RATE&from_currency=ZAR&to_currency=" + currency + "&apikey=" + apiKey;
 
             var data = await client.GetStringAsync(url);
 

@@ -12,6 +12,8 @@ namespace Uyanda.Coffee.Persistence.Entities
 
         public IEnumerable<LineItemEntity> LineItems { get; set; }
 
+        public IEnumerable<CurrencyEntity> Currencies { get; set; }
+
         public int CustomerId { get; set; }
 
         public CustomerEntity Customer { get; set; }
@@ -21,5 +23,9 @@ namespace Uyanda.Coffee.Persistence.Entities
         public decimal DiscountedPoints { get; set; }
 
         public decimal FinalInvoicePrice { get; set; }
+
+        public decimal CurrencyFinalIncoicePrice { get; set; }
+
+        public string CurrencyCode { get; set; }
     }
 }

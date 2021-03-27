@@ -7,6 +7,9 @@ using System.Linq;
 using System.Collections.Generic;
 using System;
 using Uyanda.Coffee.Application.Integration;
+using System.Text.Json;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json.Linq;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
@@ -39,6 +42,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         public async Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase)
         {
+
+            var currencyRate = await alphaVantageIntegration.GetExchangeRateAsync(purchase.Currency);
+
+            var exchangeRate = Convert.ToDecimal(JObject.Parse(currencyRate)["Realtime Currency Exchange Rate"]["5. Exchange Rate"].ToString());
+
             var beveragePrices = await BeveragePricesAync();
 
             var customer = purchase.Customer;
@@ -82,7 +90,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
                 if(customer.Id != 1)
                 await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
 
-                var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost);
+                var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost, exchangeRate, purchase.Currency);
 
                 return new PurchaseResult{  Invoice = result };
 
@@ -95,8 +103,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             {
                 // no discount purchase
 
-                
-                
                     var pointsRatio = 10;
 
                     var earnedPoints = totalCost / pointsRatio;
@@ -109,13 +115,10 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
                     await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
                
 
-                var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost);
+                var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost, exchangeRate, purchase.Currency);
 
                 return new PurchaseResult { Invoice = result };
             }
-
-
-
 
 
             throw new InvalidOperationException("invalid operation");
@@ -135,7 +138,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new GetCustomerResult { Customer = result };
         }
 
-        
+        public async Task<GetCustomerResult> GetCustomerIdAsync(GetCustomerCommand customer)
+        {
+            var result = await beverageAccessor.GetCustomerIdAsync(customer.Customer);
+
+            return new GetCustomerResult { Customer = result };
+        }
 
         // Private methods
 

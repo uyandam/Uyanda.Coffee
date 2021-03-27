@@ -28,6 +28,10 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<CustomerEntity> Customer { get; set; }
 
+        public DbSet<CurrencyEntity> Currency { get; set; }
+
+        public DbSet<PayEntity> Pay { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

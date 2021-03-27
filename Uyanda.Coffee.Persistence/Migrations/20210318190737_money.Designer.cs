@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uyanda.Coffee.Persistence;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    partial class LocalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210318190737_money")]
+    partial class money
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -223,18 +225,13 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("BeverageSizeCostId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("CurrencyCostPerItem")
+                    b.Property<decimal>("DollarCostPerItem")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<int?>("InvoiceEntityId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BeverageSizeCostId");
 
                     b.HasIndex("InvoiceEntityId");
 
@@ -277,12 +274,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CurrencyCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("CurrencyFinalIncoicePrice")
-                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("CustomerId")
                         .HasColumnType("int");
@@ -334,29 +325,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.ToTable("LineItem");
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PayEntity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<decimal>("Amount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("InvoiceId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("Pay");
-                });
-
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageTypeEntity", "BeverageType")
@@ -383,12 +351,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.CurrencyEntity", b =>
                 {
-                    b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", "BeverageSizeCost")
-                        .WithMany()
-                        .HasForeignKey("BeverageSizeCostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", null)
                         .WithMany("Currencies")
                         .HasForeignKey("InvoiceEntityId");
@@ -414,15 +376,6 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", null)
                         .WithMany("LineItems")
                         .HasForeignKey("InvoiceEntityId");
-                });
-
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PayEntity", b =>
-                {
-                    b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", "Invoice")
-                        .WithMany()
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

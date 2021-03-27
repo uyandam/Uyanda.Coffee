@@ -7,6 +7,6 @@ namespace Uyanda.Coffee.Application.Integration
 {
     public interface IAlphaVantageIntegration
     {
-        Task<string> GetExchangeRateAsync();
+        Task<string> GetExchangeRateAsync(string currency);
     }
 }

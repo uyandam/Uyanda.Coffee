@@ -11,5 +11,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
         public CustomerModel Customer { get; set; }
 
         public bool IsRedeemingPoints { get; set; }
+
+        public string Currency { get; set; }
     }
 }

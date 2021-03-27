@@ -23,8 +23,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
             this.mapper = mapper;
         }
 
-     
-
         public async Task<BeverageSizeCostModel[]> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices)
         {
             var entities = prices.Select(ToEntity).ToArray();
@@ -35,7 +33,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return entities.Select(ToModel).ToArray();
         }
 
-
         public async Task<BeverageSizeCostModel[]> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
@@ -45,9 +42,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query.Select(ToModel).ToArray();
         }
 
-   
-
-        public async Task<InvoiceModel> SimplePurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems,  decimal cost)
+        public async Task<InvoiceModel> SimplePurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems,  decimal cost, decimal exchangeRate, string Currency)
         {
             if(customerId == 1)
             {
@@ -67,15 +62,24 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
+                var currencyUsed = lineItems
+                .Select(c => new CurrencyModel
+                {
+                    BeverageSizeCostId = c.BeverageSizeCostId,
+                    CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
+                }).ToList();
 
                 var customerInvoice = new InvoiceModel
                 {
                     Date = DateTime.Now,
                     LineItems = purchase,
+                    Currencies = currencyUsed,
                     CustomerId = 1,
                     IsRedeemingPoints = false,
                     DiscountedPoints = 0,
-                    FinalInvoicePrice = cost
+                    FinalInvoicePrice = cost,
+                    CurrencyFinalIncoicePrice = cost * exchangeRate,
+                    CurrencyCode = Currency
                 };
 
                 await localDbContext.AddAsync(ToEntity(customerInvoice));
@@ -106,14 +110,24 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
+                var currencyUsed = lineItems
+                .Select(c => new CurrencyModel
+                {
+                    BeverageSizeCostId = c.BeverageSizeCostId,
+                    CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
+                }).ToList();
+
                 var customerInvoice = new InvoiceModel
                 {
                     Date = DateTime.Now,
                     LineItems = purchase,
+                    Currencies = currencyUsed,
                     CustomerId = customerId,
                     IsRedeemingPoints = false,
                     DiscountedPoints = 0,
-                    FinalInvoicePrice = cost
+                    FinalInvoicePrice = cost,
+                    CurrencyFinalIncoicePrice = cost * exchangeRate,
+                    CurrencyCode = Currency
                 };
 
                 await localDbContext.AddAsync(ToEntity(customerInvoice));
@@ -126,7 +140,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             throw new InvalidOperationException("invalid customer ID");
         }
 
-        public async Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost)
+        public async Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost, decimal exchangeRate, string Currency)
         {
             if (customerId < 2)
                 throw new InvalidOperationException("invalid customer ID");
@@ -147,14 +161,24 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 CostPerItem = beveragePrices[c.BeverageSizeCostId]
             }).ToList();
 
+            var currencyUsed = lineItems
+            .Select(c => new CurrencyModel
+            {
+                BeverageSizeCostId = c.BeverageSizeCostId,
+                CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
+            }).ToList();
+
             var customerInvoice = new InvoiceModel
             {
                 Date = DateTime.Now,
                 LineItems = purchase,
+                Currencies = currencyUsed,
                 CustomerId = customerId,
                 IsRedeemingPoints = false,
                 DiscountedPoints = points,
-                FinalInvoicePrice = cost
+                FinalInvoicePrice = cost,
+                CurrencyFinalIncoicePrice = cost * exchangeRate,
+                CurrencyCode = Currency
             };
 
             await localDbContext.AddAsync(ToEntity(customerInvoice));
@@ -190,14 +214,16 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return ToModel(result);
         }
 
-        public async Task<int> GetCustomerIdAsync(CustomerModel customer)
+        public async Task<CustomerModel> GetCustomerIdAsync(CustomerModel customer)
         {
             var result = await localDbContext.Customer.AsNoTracking()
                 .Where(c => c.PhoneNumber == customer.PhoneNumber)
                 .Select(d => d.Id)
-                .SingleAsync();
+                .SingleOrDefaultAsync();
 
-            return result;
+            customer.Id = result;
+
+            return customer;
         }
 
 
@@ -228,6 +254,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
             await localDbContext.SaveChangesAsync();
 
         }
+
+        //-----------------------------------------------------------------------------------------
+        private CurrencyModel TodModel(CurrencyEntity entity) => mapper.Map<CurrencyModel>(entity);
+
+        private CurrencyEntity ToEntity(CurrencyModel model) => mapper.Map<CurrencyEntity>(model);
 
         //-----------------------------------------------------------------------------------------
 
@@ -262,6 +293,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
         private CustomerModel ToModel(CustomerEntity entity) => mapper.Map<CustomerModel>(entity);
 
         private CustomerEntity ToEntity(CustomerModel model) => mapper.Map<CustomerEntity>(model);
+        //-----------------------------------------------------------------------------------------
+        private PayModel ToModel(PayEntity entity) => mapper.Map<PayModel>(entity);
+
+        private PayEntity ToEntity(PayModel model) => mapper.Map<PayEntity>(model);
         //-----------------------------------------------------------------------------------------
 
     }

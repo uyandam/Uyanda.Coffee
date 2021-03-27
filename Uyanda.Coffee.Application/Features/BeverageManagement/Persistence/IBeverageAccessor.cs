@@ -17,15 +17,15 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
 
         Task<CustomerModel> GetCustomerAsync(CustomerModel customer);
 
-        Task<int> GetCustomerIdAsync(CustomerModel customer);
+        Task<CustomerModel> GetCustomerIdAsync(CustomerModel customer);
 
         Task<IDictionary<int, decimal>> BeveragePricesAync();
 
         Task<bool> DoesCustomerExistAsync(CustomerModel customer);
 
-        Task<InvoiceModel> SimplePurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems,  decimal cost);
+        Task<InvoiceModel> SimplePurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems,  decimal cost, decimal exchangeRate, string Currency);
 
-        Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost);
+        Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost, decimal exchangeRate, string Currency);
 
         Task UpdateCustomerPointsAsync(int customerId, decimal points);
     } 

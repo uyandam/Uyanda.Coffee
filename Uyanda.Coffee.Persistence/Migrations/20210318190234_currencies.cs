@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
-    public partial class SeedMigration : Migration
+    public partial class currencies : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -132,6 +132,28 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Currency",
+                schema: "Data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DollarCostPerItem = table.Column<decimal>(nullable: false),
+                    InvoiceEntityId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Currency_Invoice_InvoiceEntityId",
+                        column: x => x.InvoiceEntityId,
+                        principalSchema: "Data",
+                        principalTable: "Invoice",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LineItem",
                 schema: "Data",
                 columns: table => new
@@ -244,6 +266,12 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currency_InvoiceEntityId",
+                schema: "Data",
+                table: "Currency",
+                column: "InvoiceEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customer_PhoneNumber",
                 schema: "Data",
                 table: "Customer",
@@ -272,6 +300,10 @@ namespace Uyanda.Coffee.Persistence.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Currency",
+                schema: "Data");
+
             migrationBuilder.DropTable(
                 name: "LineItem",
                 schema: "Data");

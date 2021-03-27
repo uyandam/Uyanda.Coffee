@@ -91,11 +91,26 @@ namespace Uyanda.Coffee.WebApi.Controllers
         }
 
         [HttpPost("GetCustomer")]
-        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerCommand command)
+        public async Task<IActionResult> GetCustomerAsync([FromBody] GetCustomerCommand command)
         {
             try
             {
                 var result = await beverageManagementService.GetCustomerAsync(command);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpPost("GetCustomerId")]
+        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.GetCustomerIdAsync(command);
 
                 return Ok(result);
             }
