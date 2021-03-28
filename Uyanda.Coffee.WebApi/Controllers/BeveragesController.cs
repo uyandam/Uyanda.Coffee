@@ -120,5 +120,20 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
+        [HttpPost("Pay")]
+        public async Task<IActionResult> PayAsync([FromBody] PayCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.PayAsync(command);
+
+                return Ok(result);
+            }
+            catch(Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }

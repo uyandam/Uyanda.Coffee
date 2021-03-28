@@ -145,6 +145,14 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new GetCustomerResult { Customer = result };
         }
 
+
+        public async Task<PayResult> PayAsync(PayCommand pay)
+        {
+            var result = await beverageAccessor.PayAsync(pay.Pay);
+
+            return new PayResult { Change = result };
+        }
+
         // Private methods
 
         private async Task<IDictionary<int, decimal>> BeveragePricesAync()

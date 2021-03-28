@@ -255,6 +255,20 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         }
 
+        public async Task<decimal> PayAsync(PayModel pay)
+        {
+            await localDbContext.AddAsync(ToEntity(pay));
+
+            await localDbContext.SaveChangesAsync();
+
+            var totalCost = await localDbContext.Invoice.AsNoTracking()
+                .Where(c => c.Id == pay.InvoiceId)
+                .Select(d => d.CurrencyFinalIncoicePrice)
+                .SingleAsync();
+
+            return pay.Amount - totalCost;
+        }
+
         //-----------------------------------------------------------------------------------------
         private CurrencyModel TodModel(CurrencyEntity entity) => mapper.Map<CurrencyModel>(entity);
 

@@ -58,6 +58,10 @@ namespace Uyanda.Coffee.Persistence
                 .HasIndex(c => new { c.PhoneNumber })
                 .IsUnique();
 
+            modelBuilder.Entity<PayEntity>()
+                .HasIndex(c => new { c.InvoiceId })
+                .IsUnique();
+
             modelBuilder.Entity<CustomerEntity>().HasData(
                 new CustomerEntity { Id = 1, PhoneNumber = "0" , Points = 0}
                 );

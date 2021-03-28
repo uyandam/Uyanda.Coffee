@@ -7,6 +7,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
     public class PayCommand
     {
-        public PayCommand Pay { get; set; }
+        public PayModel Pay { get; set; }
     }
 }

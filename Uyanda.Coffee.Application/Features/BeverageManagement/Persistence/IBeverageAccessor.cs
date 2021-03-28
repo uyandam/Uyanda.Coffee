@@ -28,5 +28,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
         Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost, decimal exchangeRate, string Currency);
 
         Task UpdateCustomerPointsAsync(int customerId, decimal points);
+
+        Task<decimal> PayAsync(PayModel pay);
     } 
 }
