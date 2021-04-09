@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 {
-    public class PayModel
+    public class PaymentModel
     {
         public int Id { get; set; }
 

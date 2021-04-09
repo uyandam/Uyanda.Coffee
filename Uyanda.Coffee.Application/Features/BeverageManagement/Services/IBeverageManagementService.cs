@@ -12,7 +12,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         Task<GetBeverageCostResult> GetBeverageCostAsync();
 
-        Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase);
+        Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand purchase);
 
         Task<AddCustomerResult> AddCustomerAsync(AddCustomerCommand customer);
 

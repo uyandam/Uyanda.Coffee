@@ -16,13 +16,11 @@ namespace Uyanda.Coffee.WebApi.Controllers
     {
         private readonly IBeverageManagementService beverageManagementService;
 
-        private readonly IConfiguration configuration;   
 
-        public BeveragesController(IBeverageManagementService beverageManagementService, IConfiguration configuration)
+        public BeveragesController(IBeverageManagementService beverageManagementService)
         {
             this.beverageManagementService = beverageManagementService;
 
-            this.configuration = configuration;
         }
         
 
@@ -60,12 +58,12 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("PurchaseBeverages")]
-        public async Task<IActionResult> PurchaseAsync([FromBody] PurchaseCommand command)
+        [HttpPost("PlaceOrder")]
+        public async Task<IActionResult> PlaceOrderAsync([FromBody] PlaceOrderCommand command)
         {
             try
             {
-                var result = await beverageManagementService.PurchaseAsync(command);
+                var result = await beverageManagementService.PlaceOrderAsync(command);
 
                 return Ok(result);
             }

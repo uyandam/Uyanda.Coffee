@@ -62,18 +62,12 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
-                var currencyUsed = lineItems
-                .Select(c => new CurrencyModel
-                {
-                    BeverageSizeCostId = c.BeverageSizeCostId,
-                    CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
-                }).ToList();
+                
 
                 var customerInvoice = new InvoiceModel
                 {
                     Date = DateTime.Now,
                     LineItems = purchase,
-                    Currencies = currencyUsed,
                     CustomerId = 1,
                     IsRedeemingPoints = false,
                     DiscountedPoints = 0,
@@ -82,11 +76,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CurrencyCode = Currency
                 };
 
-                await localDbContext.AddAsync(ToEntity(customerInvoice));
+                var a = await localDbContext.AddAsync(ToEntity(customerInvoice));
 
                 await localDbContext.SaveChangesAsync();
 
-                return customerInvoice;
+                return ToModel(a.Entity);
 
             }
 
@@ -110,18 +104,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
-                var currencyUsed = lineItems
-                .Select(c => new CurrencyModel
-                {
-                    BeverageSizeCostId = c.BeverageSizeCostId,
-                    CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
-                }).ToList();
-
+                
                 var customerInvoice = new InvoiceModel
                 {
                     Date = DateTime.Now,
                     LineItems = purchase,
-                    Currencies = currencyUsed,
                     CustomerId = customerId,
                     IsRedeemingPoints = false,
                     DiscountedPoints = 0,
@@ -130,11 +117,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CurrencyCode = Currency
                 };
 
-                await localDbContext.AddAsync(ToEntity(customerInvoice));
+                var a = await localDbContext.AddAsync(ToEntity(customerInvoice));
 
                 await localDbContext.SaveChangesAsync();
 
-                return customerInvoice;
+                return ToModel(a.Entity);
             }
 
             throw new InvalidOperationException("invalid customer ID");
@@ -161,18 +148,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 CostPerItem = beveragePrices[c.BeverageSizeCostId]
             }).ToList();
 
-            var currencyUsed = lineItems
-            .Select(c => new CurrencyModel
-            {
-                BeverageSizeCostId = c.BeverageSizeCostId,
-                CurrencyCostPerItem = beveragePrices[c.BeverageSizeCostId] * exchangeRate
-            }).ToList();
 
             var customerInvoice = new InvoiceModel
             {
                 Date = DateTime.Now,
                 LineItems = purchase,
-                Currencies = currencyUsed,
                 CustomerId = customerId,
                 IsRedeemingPoints = false,
                 DiscountedPoints = points,
@@ -181,11 +161,17 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 CurrencyCode = Currency
             };
 
-            await localDbContext.AddAsync(ToEntity(customerInvoice));
 
+            var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
+            
             await localDbContext.SaveChangesAsync();
 
-            return customerInvoice;
+            var a = result.Entity;
+
+            Console.WriteLine(a);
+
+
+            return ToModel(a);
 
         }
 
@@ -227,14 +213,14 @@ namespace Uyanda.Coffee.Persistence.Accessors
         }
 
 
-        public async Task<IDictionary<int, decimal>> BeveragePricesAync()
+        public async Task<IDictionary<int, decimal>> BeveragePricesAsync()
         {
             return await localDbContext.BeverageCost.AsNoTracking()
                 .Select(c => new { c.Id, c.Cost })
                 .ToDictionaryAsync(item => item.Id, item => item.Cost);
         }
 
-        public async Task<bool> DoesCustomerExistAsync(CustomerModel customer)
+        private async Task<bool> DoesCustomerExistAsync(CustomerModel customer)
         {
             var isCustomerFound = await localDbContext.Customer.AsNoTracking()
                 .Where(c => customer.Id == c.Id)
@@ -255,24 +241,28 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         }
 
-        public async Task<decimal> PayAsync(PayModel pay)
+        public async Task<decimal> PayAsync(PaymentModel pay)
         {
+
             await localDbContext.AddAsync(ToEntity(pay));
 
             await localDbContext.SaveChangesAsync();
 
-            var totalCost = await localDbContext.Invoice.AsNoTracking()
+            var invoice = await localDbContext.Invoice
                 .Where(c => c.Id == pay.InvoiceId)
-                .Select(d => d.CurrencyFinalIncoicePrice)
                 .SingleAsync();
+
+            var totalCost = invoice.CurrencyFinalIncoicePrice;
+
+            var change = pay.Amount - totalCost;
+
+            invoice.Change = change;
+
+            await localDbContext.SaveChangesAsync();
 
             return pay.Amount - totalCost;
         }
 
-        //-----------------------------------------------------------------------------------------
-        private CurrencyModel TodModel(CurrencyEntity entity) => mapper.Map<CurrencyModel>(entity);
-
-        private CurrencyEntity ToEntity(CurrencyModel model) => mapper.Map<CurrencyEntity>(model);
 
         //-----------------------------------------------------------------------------------------
 
@@ -308,9 +298,9 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         private CustomerEntity ToEntity(CustomerModel model) => mapper.Map<CustomerEntity>(model);
         //-----------------------------------------------------------------------------------------
-        private PayModel ToModel(PayEntity entity) => mapper.Map<PayModel>(entity);
+        private PaymentModel ToModel(PaymentEntity entity) => mapper.Map<PaymentModel>(entity);
 
-        private PayEntity ToEntity(PayModel model) => mapper.Map<PayEntity>(model);
+        private PaymentEntity ToEntity(PaymentModel model) => mapper.Map<PaymentEntity>(model);
         //-----------------------------------------------------------------------------------------
 
     }

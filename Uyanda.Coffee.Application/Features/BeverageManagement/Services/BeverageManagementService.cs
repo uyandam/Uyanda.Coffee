@@ -40,7 +40,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new GetBeverageCostResult { Prices = result };
         }
 
-        public async Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase)
+        public async Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand purchase)
         {
 
             var currencyRate = await alphaVantageIntegration.GetExchangeRateAsync(purchase.Currency);
@@ -50,8 +50,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             var beveragePrices = await BeveragePricesAync();
 
             var customer = purchase.Customer;
-
-            var isCustomerFound = await DoesCustomerExistAsync(customer);
 
             var lineItems = purchase.LineItems;
 
@@ -64,8 +62,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
             if(purchase.IsRedeemingPoints)
             {
-                if (!isCustomerFound)
-                    throw new InvalidOperationException("Customer not found");
 
                 var availablePoints = customerInformation.Points;
 
@@ -92,14 +88,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
                 var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost, exchangeRate, purchase.Currency);
 
-                return new PurchaseResult{  Invoice = result };
+                return new PlaceOrderResult{  Invoice = result };
 
                 // discount purchase
 
-            }
-            
-
-            if(!purchase.IsRedeemingPoints)
+            } 
+            else
             {
                 // no discount purchase
 
@@ -117,7 +111,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
                 var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost, exchangeRate, purchase.Currency);
 
-                return new PurchaseResult { Invoice = result };
+                return new PlaceOrderResult { Invoice = result };
             }
 
 
@@ -157,13 +151,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         private async Task<IDictionary<int, decimal>> BeveragePricesAync()
         {
-            return await beverageAccessor.BeveragePricesAync();
+            return await beverageAccessor.BeveragePricesAsync();
         }
-
-        public async Task<bool> DoesCustomerExistAsync(CustomerModel customer)
-        {
-            return await beverageAccessor.DoesCustomerExistAsync(customer);
-        }
-
     }
 }

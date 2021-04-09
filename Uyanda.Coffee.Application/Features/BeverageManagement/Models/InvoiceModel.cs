@@ -12,8 +12,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
 
         public IEnumerable<LineItemModel> LineItems { get; set; }
 
-        public IEnumerable<CurrencyModel> Currencies { get; set; }
-
         public int CustomerId { get; set; }
 
         public CustomerModel Customer { get; set; }
@@ -27,5 +25,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Models
         public decimal CurrencyFinalIncoicePrice { get; set; }
 
         public string CurrencyCode { get; set; }
+
+        public decimal Change { get; set; }
     }
 }

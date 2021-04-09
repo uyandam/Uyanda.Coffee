@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Folder Include="AlphaVantage\DataObjects\" />
+    <Folder Include="AlphaVantage\Integrations\" />
     <Folder Include="AlphaVantage\Requests\Results\" />
   </ItemGroup>
 

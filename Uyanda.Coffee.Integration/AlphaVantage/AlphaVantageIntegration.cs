@@ -8,7 +8,7 @@ using AutoMapper;
 using Microsoft.Extensions.Configuration;
 
 
-namespace Uyanda.Coffee.Integration.AlphaVantage.Integrations
+namespace Uyanda.Coffee.Integration.AlphaVantage
 {
     public class AlphaVantageIntegration: IAlphaVantageIntegration
     {

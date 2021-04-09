@@ -4,7 +4,7 @@ using System.Text;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
-    public class PurchaseCommand
+    public class PlaceOrderCommand
     {
         public IEnumerable<LineItemModel> LineItems { get; set; }
 

@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Uyanda.Coffee.Persistence.Entities
 {
-    public class PayEntity
+    public class PaymentEntity
     {
         public int Id { get; set; }
 

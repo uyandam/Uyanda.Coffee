@@ -28,9 +28,7 @@ namespace Uyanda.Coffee.Persistence
 
         public DbSet<CustomerEntity> Customer { get; set; }
 
-        public DbSet<CurrencyEntity> Currency { get; set; }
-
-        public DbSet<PayEntity> Pay { get; set; }
+        public DbSet<PaymentEntity> Pay { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -58,7 +56,7 @@ namespace Uyanda.Coffee.Persistence
                 .HasIndex(c => new { c.PhoneNumber })
                 .IsUnique();
 
-            modelBuilder.Entity<PayEntity>()
+            modelBuilder.Entity<PaymentEntity>()
                 .HasIndex(c => new { c.InvoiceId })
                 .IsUnique();
 
