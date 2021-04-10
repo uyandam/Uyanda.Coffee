@@ -219,16 +219,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
                 .Select(c => new { c.Id, c.Cost })
                 .ToDictionaryAsync(item => item.Id, item => item.Cost);
         }
-
-        private async Task<bool> DoesCustomerExistAsync(CustomerModel customer)
-        {
-            var isCustomerFound = await localDbContext.Customer.AsNoTracking()
-                .Where(c => customer.Id == c.Id)
-                .AnyAsync();
-
-            return isCustomerFound;
-        }
-
+        
         public async Task UpdateCustomerPointsAsync(int customerId, decimal points)
         {
             var customer = await localDbContext.Customer
@@ -241,26 +232,26 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         }
 
-        public async Task<decimal> PayAsync(PaymentModel pay)
+        public async Task<decimal> PaymentAsync(PaymentModel payment)
         {
 
-            await localDbContext.AddAsync(ToEntity(pay));
+            await localDbContext.AddAsync(ToEntity(payment));
 
             await localDbContext.SaveChangesAsync();
 
             var invoice = await localDbContext.Invoice
-                .Where(c => c.Id == pay.InvoiceId)
+                .Where(c => c.Id == payment.InvoiceId)
                 .SingleAsync();
 
             var totalCost = invoice.CurrencyFinalIncoicePrice;
 
-            var change = pay.Amount - totalCost;
+            var change = payment.Amount - totalCost;
 
             invoice.Change = change;
 
             await localDbContext.SaveChangesAsync();
 
-            return pay.Amount - totalCost;
+            return payment.Amount - totalCost;
         }
 
 

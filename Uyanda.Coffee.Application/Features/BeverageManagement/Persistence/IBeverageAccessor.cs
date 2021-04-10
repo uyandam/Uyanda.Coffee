@@ -25,6 +25,6 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
 
         Task UpdateCustomerPointsAsync(int customerId, decimal points);
 
-        Task<decimal> PayAsync(PaymentModel pay);
+        Task<decimal> PaymentAsync(PaymentModel payment);
     } 
 }

@@ -40,18 +40,18 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
             return new GetBeverageCostResult { Prices = result };
         }
 
-        public async Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand purchase)
+        public async Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand order)
         {
 
-            var currencyRate = await alphaVantageIntegration.GetExchangeRateAsync(purchase.Currency);
+            var currencyRate = await alphaVantageIntegration.GetExchangeRateAsync(order.Currency);
 
             var exchangeRate = Convert.ToDecimal(JObject.Parse(currencyRate)["Realtime Currency Exchange Rate"]["5. Exchange Rate"].ToString());
 
             var beveragePrices = await BeveragePricesAync();
 
-            var customer = purchase.Customer;
+            var customer = order.Customer;
 
-            var lineItems = purchase.LineItems;
+            var lineItems = order.LineItems;
 
             var totalCost = lineItems
                 .Sum(c => c.Count * beveragePrices[c.BeverageSizeCostId]);
@@ -60,7 +60,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
             decimal discount = 0;
 
-            if(purchase.IsRedeemingPoints)
+            if(order.IsRedeemingPoints)
             {
 
                 var availablePoints = customerInformation.Points;
@@ -86,7 +86,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
                 if(customer.Id != 1)
                 await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
 
-                var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost, exchangeRate, purchase.Currency);
+                var result = await beverageAccessor.DiscountPurchaseAsync(customer.Id, lineItems, discount, totalCost, exchangeRate, order.Currency);
 
                 return new PlaceOrderResult{  Invoice = result };
 
@@ -109,7 +109,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
                     await beverageAccessor.UpdateCustomerPointsAsync(customer.Id, availablePoints);
                
 
-                var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost, exchangeRate, purchase.Currency);
+                var result = await beverageAccessor.SimplePurchaseAsync(customer.Id, lineItems, totalCost, exchangeRate, order.Currency);
 
                 return new PlaceOrderResult { Invoice = result };
             }
@@ -140,11 +140,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         }
 
 
-        public async Task<PayResult> PayAsync(PayCommand pay)
+        public async Task<PaymentResult> PaymentAsync(PaymentCommand payment)
         {
-            var result = await beverageAccessor.PayAsync(pay.Pay);
+            var result = await beverageAccessor.PaymentAsync(payment.Payment);
 
-            return new PayResult { Change = result };
+            return new PaymentResult { Change = result };
         }
 
         // Private methods

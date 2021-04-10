@@ -5,8 +5,8 @@ using Uyanda.Coffee.Application.Features.BeverageManagement.Models;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Requests
 {
-    public class PayCommand
+    public class PaymentCommand
     {
-        public PaymentModel Pay { get; set; }
+        public PaymentModel Payment { get; set; }
     }
 }

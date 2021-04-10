@@ -119,11 +119,11 @@ namespace Uyanda.Coffee.WebApi.Controllers
         }
 
         [HttpPost("Pay")]
-        public async Task<IActionResult> PayAsync([FromBody] PayCommand command)
+        public async Task<IActionResult> PaymentAsync([FromBody] PaymentCommand command)
         {
             try
             {
-                var result = await beverageManagementService.PayAsync(command);
+                var result = await beverageManagementService.PaymentAsync(command);
 
                 return Ok(result);
             }
