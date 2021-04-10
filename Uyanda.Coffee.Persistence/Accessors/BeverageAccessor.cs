@@ -76,11 +76,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CurrencyCode = Currency
                 };
 
-                var a = await localDbContext.AddAsync(ToEntity(customerInvoice));
+                var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
 
                 await localDbContext.SaveChangesAsync();
 
-                return ToModel(a.Entity);
+                return ToModel(result.Entity);
 
             }
 
@@ -117,11 +117,11 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CurrencyCode = Currency
                 };
 
-                var a = await localDbContext.AddAsync(ToEntity(customerInvoice));
+                var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
 
                 await localDbContext.SaveChangesAsync();
 
-                return ToModel(a.Entity);
+                return ToModel(result.Entity);
             }
 
             throw new InvalidOperationException("invalid customer ID");
@@ -166,12 +166,7 @@ namespace Uyanda.Coffee.Persistence.Accessors
             
             await localDbContext.SaveChangesAsync();
 
-            var a = result.Entity;
-
-            Console.WriteLine(a);
-
-
-            return ToModel(a);
+            return ToModel(result.Entity);
 
         }
 
