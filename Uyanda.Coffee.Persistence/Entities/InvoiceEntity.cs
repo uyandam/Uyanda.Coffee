@@ -21,5 +21,11 @@ namespace Uyanda.Coffee.Persistence.Entities
         public decimal DiscountedPoints { get; set; }
 
         public decimal FinalInvoicePrice { get; set; }
+
+        public decimal CurrencyFinalIncoicePrice { get; set; }
+
+        public string CurrencyCode { get; set; }
+
+        public decimal Change { get; set; }
     }
 }

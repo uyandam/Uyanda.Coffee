@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
-    public partial class SeedData : Migration
+    public partial class seedData : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -84,7 +84,13 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Date = table.Column<DateTime>(nullable: false),
-                    CustomerId = table.Column<int>(nullable: false)
+                    CustomerId = table.Column<int>(nullable: false),
+                    IsRedeemingPoints = table.Column<bool>(nullable: false),
+                    DiscountedPoints = table.Column<decimal>(nullable: false),
+                    FinalInvoicePrice = table.Column<decimal>(nullable: false),
+                    CurrencyFinalIncoicePrice = table.Column<decimal>(nullable: false),
+                    CurrencyCode = table.Column<string>(nullable: true),
+                    Change = table.Column<decimal>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -126,6 +132,59 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         principalTable: "BeverageSizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pay",
+                schema: "Data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<decimal>(nullable: false),
+                    Currency = table.Column<string>(nullable: true),
+                    InvoiceId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pay", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Pay_Invoice_InvoiceId",
+                        column: x => x.InvoiceId,
+                        principalSchema: "Data",
+                        principalTable: "Invoice",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Currency",
+                schema: "Data",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BeverageSizeCostId = table.Column<int>(nullable: false),
+                    CurrencyCostPerItem = table.Column<decimal>(nullable: false),
+                    InvoiceEntityId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Currency", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Currency_BeverageCost_BeverageSizeCostId",
+                        column: x => x.BeverageSizeCostId,
+                        principalSchema: "Data",
+                        principalTable: "BeverageCost",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Currency_Invoice_InvoiceEntityId",
+                        column: x => x.InvoiceEntityId,
+                        principalSchema: "Data",
+                        principalTable: "Invoice",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -241,6 +300,18 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Currency_BeverageSizeCostId",
+                schema: "Data",
+                table: "Currency",
+                column: "BeverageSizeCostId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Currency_InvoiceEntityId",
+                schema: "Data",
+                table: "Currency",
+                column: "InvoiceEntityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Customer_PhoneNumber",
                 schema: "Data",
                 table: "Customer",
@@ -265,12 +336,27 @@ namespace Uyanda.Coffee.Persistence.Migrations
                 schema: "Data",
                 table: "LineItem",
                 column: "InvoiceEntityId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pay_InvoiceId",
+                schema: "Data",
+                table: "Pay",
+                column: "InvoiceId",
+                unique: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Currency",
+                schema: "Data");
+
+            migrationBuilder.DropTable(
                 name: "LineItem",
+                schema: "Data");
+
+            migrationBuilder.DropTable(
+                name: "Pay",
                 schema: "Data");
 
             migrationBuilder.DropTable(

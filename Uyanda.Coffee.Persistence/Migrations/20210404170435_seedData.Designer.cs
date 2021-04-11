@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Uyanda.Coffee.Persistence;
 
 namespace Uyanda.Coffee.Persistence.Migrations
 {
     [DbContext(typeof(LocalDbContext))]
-    partial class LocalDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210404170435_seedData")]
+    partial class seedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -216,6 +218,31 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.CurrencyEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("BeverageSizeCostId")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("CurrencyCostPerItem")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<int?>("InvoiceEntityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BeverageSizeCostId");
+
+                    b.HasIndex("InvoiceEntityId");
+
+                    b.ToTable("Currency");
+                });
+
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.CustomerEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -312,7 +339,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.ToTable("LineItem");
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PaymentEntity", b =>
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PayEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -333,7 +360,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                     b.HasIndex("InvoiceId")
                         .IsUnique();
 
-                    b.ToTable("Payment");
+                    b.ToTable("Pay");
                 });
 
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.BeverageEntity", b =>
@@ -360,6 +387,19 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.CurrencyEntity", b =>
+                {
+                    b.HasOne("Uyanda.Coffee.Persistence.Entities.BeverageSizeCostEntity", "BeverageSizeCost")
+                        .WithMany()
+                        .HasForeignKey("BeverageSizeCostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", null)
+                        .WithMany("Currencies")
+                        .HasForeignKey("InvoiceEntityId");
+                });
+
             modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.CustomerEntity", "Customer")
@@ -382,7 +422,7 @@ namespace Uyanda.Coffee.Persistence.Migrations
                         .HasForeignKey("InvoiceEntityId");
                 });
 
-            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PaymentEntity", b =>
+            modelBuilder.Entity("Uyanda.Coffee.Persistence.Entities.PayEntity", b =>
                 {
                     b.HasOne("Uyanda.Coffee.Persistence.Entities.InvoiceEntity", "Invoice")
                         .WithMany()

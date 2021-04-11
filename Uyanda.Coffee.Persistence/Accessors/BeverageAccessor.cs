@@ -23,8 +23,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
             this.mapper = mapper;
         }
 
-     
-
         public async Task<BeverageSizeCostModel[]> AddBeverageCostAsync(IEnumerable<BeverageSizeCostModel> prices)
         {
             var entities = prices.Select(ToEntity).ToArray();
@@ -35,7 +33,6 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return entities.Select(ToModel).ToArray();
         }
 
-
         public async Task<BeverageSizeCostModel[]> GetBeverageCostAsync()
         {
             var query = await localDbContext.BeverageCost.AsNoTracking()
@@ -45,34 +42,19 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return query.Select(ToModel).ToArray();
         }
 
-
-        public async Task<InvoiceModel> PurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer, bool IsRedeemingPoints)
+        public async Task<InvoiceModel> SimplePurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems,  decimal cost, decimal exchangeRate, string Currency)
         {
-            return IsRedeemingPoints ? await DiscountPurchaseAsync(lineItems, customer) : await NormalPurchaseAsync(lineItems, customer);
-            
-            throw new InvalidOperationException("Invalid input");
+            if(customerId == 1)
+            {
+                var beveragePrices = await localDbContext.BeverageCost.AsNoTracking()
+                     .Select(c => new
+                     {
+                         c.Id,
+                         c.Cost
+                     })
+                     .ToDictionaryAsync(item => item.Id, item => item.Cost);
 
-        }
-
-
-        private async Task<InvoiceModel> NormalPurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer)
-        {
-            var beveragePrices = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { c.Id, c.Cost })
-                .ToDictionaryAsync(item => item.Id, item => item.Cost);
-
-            var totalCost = lineItems
-                .Sum(c => c.Count * beveragePrices[c.BeverageSizeCostId]);
-
-            int discount = 10;
-
-            var earnedPoints = totalCost / discount;
-
-            var isUserFound = await localDbContext.Customer
-                    .Where(c => c.Id == customer.Id)
-                    .AnyAsync();
-
-            var purchase = lineItems
+                var purchase = lineItems
                 .Select(c => new LineItemModel
                 {
                     BeverageSizeCostId = c.BeverageSizeCostId,
@@ -80,134 +62,112 @@ namespace Uyanda.Coffee.Persistence.Accessors
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
                 }).ToList();
 
-            if (!isUserFound)
-            {
-                if (customer.Id != 0)
-                    throw new InvalidOperationException("Invalid Id value");
+                
 
                 var customerInvoice = new InvoiceModel
-                { 
+                {
                     Date = DateTime.Now,
                     LineItems = purchase,
                     CustomerId = 1,
                     IsRedeemingPoints = false,
                     DiscountedPoints = 0,
-                    FinalInvoicePrice = totalCost
+                    FinalInvoicePrice = cost,
+                    CurrencyFinalIncoicePrice = cost * exchangeRate,
+                    CurrencyCode = Currency
                 };
 
-                await localDbContext.AddAsync(ToEntity(customerInvoice));
+                var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
 
                 await localDbContext.SaveChangesAsync();
 
-                return customerInvoice;
-            }        
+                return ToModel(result.Entity);
 
-            if (isUserFound)
-            {
-                if (customer.Id == 1)
-                    throw new InvalidOperationException("invalid ID");
-
-                customer.Points += earnedPoints;
-
-                var customerRecord = await localDbContext.Customer
-                    .Where(c => c.Id == customer.Id)
-                    .SingleAsync();
-
-                customerRecord.Points += earnedPoints;
-
-                await localDbContext.SaveChangesAsync();
-
-                var customerInvoice = new InvoiceModel
-                {
-                    Date = DateTime.Now,
-                    LineItems = purchase,
-                    CustomerId = customer.Id,
-                    IsRedeemingPoints = false,
-                    DiscountedPoints = 0,
-                    FinalInvoicePrice = totalCost
-                };
-
-                await localDbContext.AddAsync(ToEntity(customerInvoice));
-
-                await localDbContext.SaveChangesAsync();
-
-                return customerInvoice;
             }
 
-            throw new InvalidOperationException("Invalid input");
 
-        }
-
-        private async Task<InvoiceModel> DiscountPurchaseAsync(IEnumerable<LineItemModel> lineItems, CustomerModel customer)
-        {
-            if (customer.Id == 0)
-                throw new InvalidOperationException("Customer Id cannot be 0");
-
-            var isUserFound = await localDbContext.Customer
-                .Where(c => c.Id == customer.Id)
-                .AnyAsync();
-
-            if (isUserFound == false)
-                throw new InvalidOperationException("Phone number does not exist");
-
-            var beveragePrices = await localDbContext.BeverageCost.AsNoTracking()
-                .Select(c => new { c.Id, c.Cost })
-                .ToDictionaryAsync(item => item.Id, item => item.Cost);
-
-            var totalCost = lineItems
-                .Sum(c => c.Count * beveragePrices[c.BeverageSizeCostId]);
-
-            var customerEntity = await localDbContext.Customer
-                .Where(c => c.Id == customer.Id)
-                .SingleAsync();
-
-            var discount = customerEntity.Points;
-
-            var availablePoints = customerEntity.Points;
-
-            var amountPaid = totalCost;
-
-
-            if (availablePoints > totalCost)
+            if(customerId > 1)
             {
-                discount = totalCost;
 
-                amountPaid = 0;
-            }
-            else
-            {
-                discount = availablePoints;
+                var beveragePrices = await localDbContext.BeverageCost.AsNoTracking()
+                     .Select(c => new
+                     {
+                         c.Id,
+                         c.Cost
+                     })
+                     .ToDictionaryAsync(item => item.Id, item => item.Cost);
 
-                amountPaid = totalCost - availablePoints;
-            }
-
-            customerEntity.Points = discount;
-
-            var lineItemModel = lineItems
+                var purchase = lineItems
                 .Select(c => new LineItemModel
                 {
                     BeverageSizeCostId = c.BeverageSizeCostId,
                     Count = c.Count,
                     CostPerItem = beveragePrices[c.BeverageSizeCostId]
-                });
-                
+                }).ToList();
 
-            var beverageCost = new InvoiceEntity
+                
+                var customerInvoice = new InvoiceModel
+                {
+                    Date = DateTime.Now,
+                    LineItems = purchase,
+                    CustomerId = customerId,
+                    IsRedeemingPoints = false,
+                    DiscountedPoints = 0,
+                    FinalInvoicePrice = cost,
+                    CurrencyFinalIncoicePrice = cost * exchangeRate,
+                    CurrencyCode = Currency
+                };
+
+                var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
+
+                await localDbContext.SaveChangesAsync();
+
+                return ToModel(result.Entity);
+            }
+
+            throw new InvalidOperationException("invalid customer ID");
+        }
+
+        public async Task<InvoiceModel> DiscountPurchaseAsync(int customerId, IEnumerable<LineItemModel> lineItems, decimal points, decimal cost, decimal exchangeRate, string Currency)
+        {
+            if (customerId < 2)
+                throw new InvalidOperationException("invalid customer ID");
+
+            var beveragePrices = await localDbContext.BeverageCost.AsNoTracking()
+                    .Select(c => new
+                    {
+                        c.Id,
+                        c.Cost
+                    })
+                    .ToDictionaryAsync(item => item.Id, item => item.Cost);
+
+            var purchase = lineItems
+            .Select(c => new LineItemModel
+            {
+                BeverageSizeCostId = c.BeverageSizeCostId,
+                Count = c.Count,
+                CostPerItem = beveragePrices[c.BeverageSizeCostId]
+            }).ToList();
+
+
+            var customerInvoice = new InvoiceModel
             {
                 Date = DateTime.Now,
-                LineItems = lineItemModel.Select(ToEntity).ToList(),
-                CustomerId = customer.Id,
-                IsRedeemingPoints = true,
-                DiscountedPoints = discount,
-                FinalInvoicePrice = amountPaid
+                LineItems = purchase,
+                CustomerId = customerId,
+                IsRedeemingPoints = false,
+                DiscountedPoints = points,
+                FinalInvoicePrice = cost,
+                CurrencyFinalIncoicePrice = cost * exchangeRate,
+                CurrencyCode = Currency
             };
 
-            await localDbContext.AddAsync(beverageCost);
 
+            var result = await localDbContext.AddAsync(ToEntity(customerInvoice));
+            
             await localDbContext.SaveChangesAsync();
 
-            return ToModel(beverageCost);
-            
+            return ToModel(result.Entity);
+
         }
 
         public async Task<CustomerModel> AddCustomerAsync(CustomerModel customer)
@@ -226,14 +186,71 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return customer;
         }
 
-        public async Task<CustomerModel> GetCustomerIdAsync(CustomerModel customer)
+        public async Task<CustomerModel> GetCustomerAsync(CustomerModel customer)
         {
             var result =  await localDbContext.Customer.AsNoTracking()
-                .Where(c => c.PhoneNumber == customer.PhoneNumber)
+                .Where(c => c.Id == customer.Id)
                 .SingleAsync();
 
             return ToModel(result);
         }
+
+        public async Task<CustomerModel> GetCustomerIdAsync(CustomerModel customer)
+        {
+            var result = await localDbContext.Customer.AsNoTracking()
+                .Where(c => c.PhoneNumber == customer.PhoneNumber)
+                .Select(d => d.Id)
+                .SingleOrDefaultAsync();
+
+            customer.Id = result;
+
+            return customer;
+        }
+
+
+        public async Task<IDictionary<int, decimal>> BeveragePricesAsync()
+        {
+            return await localDbContext.BeverageCost.AsNoTracking()
+                .Select(c => new { c.Id, c.Cost })
+                .ToDictionaryAsync(item => item.Id, item => item.Cost);
+        }
+        
+        public async Task UpdateCustomerPointsAsync(int customerId, decimal points)
+        {
+            var customer = await localDbContext.Customer
+                .Where(c => c.Id == customerId)
+                .SingleAsync();
+
+            customer.Points = points;
+
+            await localDbContext.SaveChangesAsync();
+
+        }
+
+        public async Task<decimal> PaymentAsync(PaymentModel payment)
+        {
+
+            await localDbContext.AddAsync(ToEntity(payment));
+
+            await localDbContext.SaveChangesAsync();
+
+            var invoice = await localDbContext.Invoice
+                .Where(c => c.Id == payment.InvoiceId)
+                .SingleAsync();
+
+            var totalCost = invoice.CurrencyFinalIncoicePrice;
+
+            var change = payment.Amount - totalCost;
+
+            invoice.Change = change;
+
+            await localDbContext.SaveChangesAsync();
+
+            return payment.Amount - totalCost;
+        }
+
+
+        //-----------------------------------------------------------------------------------------
 
         private BeverageModel ToModel(BeverageEntity entity) => mapper.Map<BeverageModel>(entity);
 
@@ -266,6 +283,10 @@ namespace Uyanda.Coffee.Persistence.Accessors
         private CustomerModel ToModel(CustomerEntity entity) => mapper.Map<CustomerModel>(entity);
 
         private CustomerEntity ToEntity(CustomerModel model) => mapper.Map<CustomerEntity>(model);
+        //-----------------------------------------------------------------------------------------
+        private PaymentModel ToModel(PaymentEntity entity) => mapper.Map<PaymentModel>(entity);
+
+        private PaymentEntity ToEntity(PaymentModel model) => mapper.Map<PaymentEntity>(model);
         //-----------------------------------------------------------------------------------------
 
     }

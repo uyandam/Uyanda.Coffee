@@ -1,7 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests.Results;
-using System.Collections.Generic;
 
 namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 {
@@ -11,10 +10,14 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
 
         Task<GetBeverageCostResult> GetBeverageCostAsync();
 
-        Task<PurchaseResult> PurchaseAsync(PurchaseCommand purchase);
+        Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand order);
 
         Task<AddCustomerResult> AddCustomerAsync(AddCustomerCommand customer);
 
-        Task<GetCustomerIdResult> GetCustomerIdAsync(GetCustomerIdCommand customer);
+        Task<GetCustomerResult> GetCustomerAsync(GetCustomerCommand customer);
+
+        Task<GetCustomerResult> GetCustomerIdAsync(GetCustomerCommand customer);
+
+        Task<PaymentResult> PaymentAsync(PaymentCommand pay);
     }
 }

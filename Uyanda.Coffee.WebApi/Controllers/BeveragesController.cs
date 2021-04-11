@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Requests;
 using Uyanda.Coffee.Application.Features.BeverageManagement.Services;
+using Microsoft.Extensions.Configuration;
 
 namespace Uyanda.Coffee.WebApi.Controllers
 {
@@ -15,9 +16,11 @@ namespace Uyanda.Coffee.WebApi.Controllers
     {
         private readonly IBeverageManagementService beverageManagementService;
 
+
         public BeveragesController(IBeverageManagementService beverageManagementService)
         {
             this.beverageManagementService = beverageManagementService;
+
         }
         
 
@@ -40,7 +43,7 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("getbeveragecost")]
+        [HttpPost("GetBeveragePrices")]
         public async Task<IActionResult> GetBeverageCostAsync()
         {
             try
@@ -55,12 +58,12 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
-        [HttpPost("PurchaseBeverages")]
-        public async Task<IActionResult> PurchaseAsync([FromBody] PurchaseCommand command)
+        [HttpPost("PlaceOrder")]
+        public async Task<IActionResult> PlaceOrderAsync([FromBody] PlaceOrderCommand command)
         {
             try
             {
-                var result = await beverageManagementService.PurchaseAsync(command);
+                var result = await beverageManagementService.PlaceOrderAsync(command);
 
                 return Ok(result);
             }
@@ -85,8 +88,23 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
+        [HttpPost("GetCustomer")]
+        public async Task<IActionResult> GetCustomerAsync([FromBody] GetCustomerCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.GetCustomerAsync(command);
+
+                return Ok(result);
+            }
+            catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
         [HttpPost("GetCustomerId")]
-        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerIdCommand command)
+        public async Task<IActionResult> GetCustomerIdAsync([FromBody] GetCustomerCommand command)
         {
             try
             {
@@ -95,6 +113,21 @@ namespace Uyanda.Coffee.WebApi.Controllers
                 return Ok(result);
             }
             catch (Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
+        [HttpPost("Pay")]
+        public async Task<IActionResult> PaymentAsync([FromBody] PaymentCommand command)
+        {
+            try
+            {
+                var result = await beverageManagementService.PaymentAsync(command);
+
+                return Ok(result);
+            }
+            catch(Exception e)
             {
                 return StatusCode(500, e);
             }
