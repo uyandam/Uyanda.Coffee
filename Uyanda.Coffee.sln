@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Persistence",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.WebUI", "Uyanda.Coffee.WebUI\Uyanda.Coffee.WebUI.csproj", "{713A67D0-1C6B-411D-B9AF-DBE098C015A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{713A67D0-1C6B-411D-B9AF-DBE098C015A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{713A67D0-1C6B-411D-B9AF-DBE098C015A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{713A67D0-1C6B-411D-B9AF-DBE098C015A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{713A67D0-1C6B-411D-B9AF-DBE098C015A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
