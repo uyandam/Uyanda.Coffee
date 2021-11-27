@@ -153,5 +153,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         {
             return await beverageAccessor.BeveragePricesAsync();
         }
+
+        public async Task<GetBeverageSizeResult> GetBeverageSizeAsync()
+        {
+            var result = await beverageAccessor.GetBeverageSizeAsync();
+            return new GetBeverageSizeResult { Size = result};
+        }
     }
 }

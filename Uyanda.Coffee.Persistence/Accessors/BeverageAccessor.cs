@@ -249,6 +249,13 @@ namespace Uyanda.Coffee.Persistence.Accessors
             return payment.Amount - totalCost;
         }
 
+        public async Task<BeverageSizeModel[]> GetBeverageSizeAsync()
+        {
+            var result = await localDbContext.BeverageSizes.AsNoTracking()
+                .ToArrayAsync();
+
+            return result.Select(ToModel).ToArray();
+        }
 
         //-----------------------------------------------------------------------------------------
 

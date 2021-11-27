@@ -133,5 +133,19 @@ namespace Uyanda.Coffee.WebApi.Controllers
             }
         }
 
+        [HttpPost("GetBeverageSize")]
+        public async Task<IActionResult> GetBeverageSizeAsync()
+        {
+            try
+            {
+                var result = await beverageManagementService.GetBeverageSizeAsync();
+
+                return Ok(result);
+            }catch(Exception e)
+            {
+                return StatusCode(500, e);
+            }
+        }
+
     }
 }

@@ -13,8 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.NodeServices" Version="3.1.14" />
     <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="3.1.12" />
+    <PackageReference Include="Microsoft.TypeScript.MSBuild" Version="4.4.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +25,18 @@
     <Content Remove="$(SpaRoot)**" />
     <None Remove="$(SpaRoot)**" />
     <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\app-routing.module.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\app-routing.module.ts" />
   </ItemGroup>
 
   <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

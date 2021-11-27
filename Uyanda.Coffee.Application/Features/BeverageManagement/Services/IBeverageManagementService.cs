@@ -19,5 +19,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         Task<GetCustomerResult> GetCustomerIdAsync(GetCustomerCommand customer);
 
         Task<PaymentResult> PaymentAsync(PaymentCommand pay);
+
+        Task<GetBeverageSizeResult> GetBeverageSizeAsync();
     }
 }
