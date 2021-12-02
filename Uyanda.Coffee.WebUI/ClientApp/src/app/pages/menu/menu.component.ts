@@ -1,13 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { analyzeAndValidateNgModules } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { forkJoin, Observable, observable, throwError } from 'rxjs';
 import {catchError, retry} from 'rxjs/operators';
 
 @Component({
   selector: 'app-menu',
-  templateUrl: './menu.component.html',
-  styleUrls: ['./menu.component.css']
+  templateUrl: './menu.component.html'
 })
 export class MenuComponent implements OnInit {
 
@@ -32,7 +31,6 @@ export class MenuComponent implements OnInit {
     const beverageSizeObservable = this.http.post<any>(this.baseUrl + this.beverageSizes, {});
     beverageSizeObservable.subscribe((sauce) => {
       this.sizeOfDrinks = sauce.size;
-      console.log(this.sizeOfDrinks);
     })
   }
   
@@ -42,6 +40,13 @@ export class MenuComponent implements OnInit {
     var result = this.sizeOfDrinks.find((val:any) => val.id === element);
 
     return result.name;
+  }
+
+  @Input() elementClicked: any;
+
+  onClick(e: any) {
+    console.log(this.beverages.find((i:any) => i.id === e));
+    
   }
 
 }

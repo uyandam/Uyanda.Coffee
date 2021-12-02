@@ -5,9 +5,9 @@
 </div>
   <hr>
   <div class="row">
-    <div class="col-xs-12">
-      <li *ngFor="let beverage of beverages">
-        {{ findDrinkSize(beverage.beverageSizeId) }} {{beverage.beverage.name}} R{{beverage.cost}} 
+    <div class="col-xs-12" class="list-group">
+      <li *ngFor="let beverage of beverages" class="list-group-item list-group-item-primary btn" (click)="onClick(beverage.id)">
+        {{findDrinkSize(beverage.beverageSizeId)}} {{beverage.beverage.name}} R{{beverage.cost}}
       </li>
     </div>
 </div>
