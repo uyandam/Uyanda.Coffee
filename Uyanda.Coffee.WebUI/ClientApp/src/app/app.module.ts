@@ -2,23 +2,25 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { MenuComponent } from './pages/menu/menu.component';
 import { HeaderComponent } from './pages/header/header.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { PagesComponent } from './pages/pages.component';
-import { MenuItemComponent } from './pages/menu/menu-item/menu-item.component';
-
-
+import { MenuComponent } from './menu/menu.component';
+import { ClientService } from './services/client.service';
+import { BasketComponent } from './pages/basket/basket.component';
+import { DataShareService } from './services/dataShare.service';
+import { CheckoutComponent } from './pages/checkout/checkout.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MenuComponent,
     HeaderComponent,
     PagesComponent,
-    MenuItemComponent
+    MenuComponent,
+    BasketComponent,
+    CheckoutComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +29,7 @@ import { MenuItemComponent } from './pages/menu/menu-item/menu-item.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [ClientService, DataShareService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

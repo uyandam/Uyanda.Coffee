@@ -1,0 +1,34 @@
+<p>menu works!</p>
+
+
+<div class="row">
+  <div class="col-xs-12" class="list-group">
+    <li *ngFor="let beverage of beverages" class="list-group-item list-group-item-primary btn">
+
+      <div name="name">
+        Beverage: {{beverage.beverage.name}}
+      </div>
+      
+      <div name="cost">
+        Cost: R{{beverage.cost}}
+      </div>
+
+      <div name="size">
+        Size: {{beverage.beverageSize.name}}
+      </div>
+
+      <input type="number" min="0" oninput="validity.valid||(value='');" maxlength="3" placeholder="Quantity" value="0" ngModel #quantity />
+      <br>
+      <br>
+      <button type="button" class="btn btn-primary" (click)="ngCart(beverage, quantity.value)">Add to cart</button>
+
+
+    </li>
+  </div>
+</div>
+
+<div>
+  <button routerLink='/cart'>
+    <span>Go to Basket Page</span>
+ </button>
+</div>

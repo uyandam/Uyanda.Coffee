@@ -35,9 +35,20 @@ namespace Uyanda.Coffee.Persistence.Accessors
 
         public async Task<BeverageSizeCostModel[]> GetBeverageCostAsync()
         {
+
+            var result = await localDbContext.BeverageSizes.AsNoTracking()
+                .ToArrayAsync();
+
             var query = await localDbContext.BeverageCost.AsNoTracking()
                         .Include(row => row.Beverage)
                         .ToArrayAsync();
+            for (int i = 0; i < query.Length; i++)
+            {
+                var sizeName = Array.Find(result, element => element.Id == query[i].BeverageSizeId);
+
+                query[i].BeverageSize = sizeName;
+
+            }
 
             return query.Select(ToModel).ToArray();
         }
