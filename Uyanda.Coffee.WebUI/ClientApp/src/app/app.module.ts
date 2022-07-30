@@ -12,6 +12,7 @@ import { ClientService } from './services/client.service';
 import { BasketComponent } from './pages/basket/basket.component';
 import { DataShareService } from './services/dataShare.service';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
+import { CartService } from './services/cart.services';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ClientService, DataShareService],
+  providers: [ClientService, DataShareService, CartService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

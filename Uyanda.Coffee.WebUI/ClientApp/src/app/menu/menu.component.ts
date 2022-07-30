@@ -18,11 +18,18 @@ export class MenuComponent implements OnInit {
 
   ngOnInit() {
 
-    this._clientService.beverage.getBeverages()
-    .subscribe((data) => {
-      this.beverages = data.prices;
-    });
+    // this._clientService.beverage.getBeverages()
+    // .subscribe((data) => {
+    //   this.beverages = data.prices;
+    // });
     
+    this._clientService.beverage.getBeverageSizeCost()
+    .subscribe((data) => {
+      this.beverages = data.beverageSizeCost;
+      console.log(this.beverages);
+      
+    });
+
   }
 
   ngOnMenu(){

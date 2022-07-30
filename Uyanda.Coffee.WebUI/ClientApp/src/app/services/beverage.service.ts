@@ -7,7 +7,11 @@ export class BeverageService {
 
     private _urlBase = 'http://localhost:5000/api/beverages/'
     constructor (private http: HttpClient) {}
-
+    
+    getBeverageSizeCost() {
+        return this.http.post<any>(this._urlBase + 'getbeveragesizecost', {})
+    }
+    
     getBeverages(){
         return this.http.post<any>(this._urlBase + 'getbeverageprices', {})
     }
