@@ -13,6 +13,7 @@ import { BasketComponent } from './pages/basket/basket.component';
 import { DataShareService } from './services/dataShare.service';
 import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { CartService } from './services/cart.services';
+import { BeverageService } from './services/beverage.service';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { CartService } from './services/cart.services';
     HttpClientModule,
     AppRoutingModule
   ],
-  providers: [ClientService, DataShareService, CartService],
+  providers: [ClientService, DataShareService, CartService, BeverageService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

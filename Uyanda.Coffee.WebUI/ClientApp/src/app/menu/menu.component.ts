@@ -13,6 +13,7 @@ export class MenuComponent implements OnInit {
 
   public cart: any = [];
 
+  beverageSizeCost: any = {};
 
   constructor(private _clientService: ClientService, private _dataShareService: DataShareService) { }
 
@@ -27,7 +28,15 @@ export class MenuComponent implements OnInit {
     .subscribe((data) => {
       this.beverages = data.beverageSizeCost;
       console.log(this.beverages);
+      this._dataShareService.addBeverageSizeCost(data);
+
+      console.log('beverage size cost service start');
       
+      console.log(this._dataShareService.getBeverageSizeCost());
+      
+
+      console.log('beverage size cost service end');
+
     });
 
   }

@@ -17,11 +17,12 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
     {
         private readonly IBeverageAccessor beverageAccessor;
         private readonly IAlphaVantageIntegration alphaVantageIntegration;
+        private readonly IApiLayerIntegration apiLayerIntegration;
 
-        public BeverageManagementService(IBeverageAccessor beverageAccessor, IAlphaVantageIntegration alphaVantageIntegration)
+        public BeverageManagementService(IBeverageAccessor beverageAccessor, IApiLayerIntegration apiLayerIntegration)
         {
             this.beverageAccessor = beverageAccessor;
-            this.alphaVantageIntegration = alphaVantageIntegration;
+            this.apiLayerIntegration = apiLayerIntegration;
         }
 
         public async Task<AddBeverageCostResult> AddBeverageCostAsync(AddBeverageCostCommand command)
@@ -43,9 +44,11 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         public async Task<PlaceOrderResult> PlaceOrderAsync(PlaceOrderCommand order)
         {
 
-            var currencyRate = await alphaVantageIntegration.GetExchangeRateAsync(order.Currency);
+            var currencyRate = await apiLayerIntegration.GetExchangeRateAsync(order.Currency);
 
-            var exchangeRate = Convert.ToDecimal(JObject.Parse(currencyRate)["Realtime Currency Exchange Rate"]["5. Exchange Rate"].ToString());
+            var exchangeRate = Convert.ToDecimal(JObject.Parse(currencyRate)["info"]["rate"].ToString());
+
+
 
             var beveragePrices = await BeveragePricesAync();
 
@@ -158,6 +161,13 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Services
         {
             var result = await beverageAccessor.GetBeverageSizeAsync();
             return new GetBeverageSizeResult { Size = result};
+        }
+
+        public async Task<GetBeverageSizeCostResult> GetBeverageSizeCostAsync()
+        {
+            var result = await beverageAccessor.GetBeverageSizeCostAsync();
+
+            return new GetBeverageSizeCostResult { BeverageSizeCost = result };
         }
     }
 }

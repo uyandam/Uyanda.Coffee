@@ -19,5 +19,20 @@ export class CartService {
 
         return this.http.post<any>(this._urlBase + 'placeorder', order, )        
     }
+
+    getBeverageSizeCost(): any {
+        return this.http.post<any>(this._urlBase + 'getbeveragesizecost', {});
+    }
     
+    pay(amount: number, invoiceId: BigInteger): any {
+        let payment = {
+            Payment: {
+                Amount: amount,
+                InvoiceId: invoiceId
+            }
+        }
+        return this.http.post<any>(this._urlBase + 'pay', payment ).subscribe(data => data, err =>console.log(err));
+       
+    }
+
 }

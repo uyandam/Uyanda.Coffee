@@ -31,6 +31,7 @@ namespace Uyanda.Coffee.Persistence.Mapping
 
             CreateMap<PaymentModel, PaymentEntity>();
             CreateMap<PaymentEntity, PaymentModel>();
+
         }
     }
 }

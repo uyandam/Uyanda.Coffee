@@ -28,5 +28,7 @@ namespace Uyanda.Coffee.Application.Features.BeverageManagement.Persistence
         Task<decimal> PaymentAsync(PaymentModel payment);
 
         Task<BeverageSizeModel[]> GetBeverageSizeAsync();
+
+        Task<BeverageSizeCostModel[]> GetBeverageSizeCostAsync();
     } 
 }

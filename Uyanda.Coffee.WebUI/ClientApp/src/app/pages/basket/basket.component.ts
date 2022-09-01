@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CartService } from 'src/app/services/cart.services';
 import { DataShareService } from 'src/app/services/dataShare.service';
 
@@ -15,7 +16,7 @@ export class BasketComponent implements OnInit {
 
   orderResult: any;
 
-  constructor(private _dataShareService: DataShareService, private _cartService: CartService) { }
+  constructor(private _dataShareService: DataShareService, private _cartService: CartService, private route: Router) { }
 
   ngOnInit(): void {
     
@@ -33,22 +34,16 @@ export class BasketComponent implements OnInit {
   }
 
   placeOrder(): void {
-
-    // let lineItems: any = this.cart;
-    // placeOrder (lineItems: [], customer: number, IsRedeemingPoints: boolean, currency: string)
-    // let result: any = this._cartService.placeOrder(this.order, 1, false, "USD");
-    
-    console.log("-------------");
     
     this._cartService.placeOrder(this.order, 1, false, "USD")
     .subscribe((data) => {
       this.orderResult = data;
       console.log(this.orderResult);
-      
+      this._dataShareService.addInvoice(this.orderResult);
+      this.route.navigate(['/checkout']);     
     }, (error: any) => console.log(error)
-     );
+    );
 
-    console.log("+++++++++++++");
     
   }
 
