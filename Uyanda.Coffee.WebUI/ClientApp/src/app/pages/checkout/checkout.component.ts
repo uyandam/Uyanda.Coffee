@@ -38,9 +38,18 @@ export class CheckoutComponent implements OnInit {
 
   ngPlaceOrder(amount: any){
     console.log("place order");
-    console.log(amount);
-    this.cartService = this._cartService.pay(amount, this.invoice.id);
-    console.log(this.cartService);
+
+    
+    this._cartService.pay(parseFloat(amount), this.invoice.id).subscribe(
+      (data: any) => {
+        this.cartService = data;
+        console.log(this.cartService);
+      }
+    )
+    
+    
+    console.log("cart service reply above this line");
+    
      
   }
 

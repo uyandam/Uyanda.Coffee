@@ -31,7 +31,7 @@ export class CartService {
                 InvoiceId: invoiceId
             }
         }
-        return this.http.post<any>(this._urlBase + 'pay', payment ).subscribe(data => data, err =>console.log(err));
+        return this.http.post<any>(this._urlBase + 'pay', payment );
        
     }
 
