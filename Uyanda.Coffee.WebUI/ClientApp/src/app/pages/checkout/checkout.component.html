@@ -1,0 +1,23 @@
+<div class="row" class="text-light bg-dark">
+    <div class="col-xs-12" class="list-group" *ngIf="invoice?.date !== null">
+     Invoice date: {{invoice?.date}}
+    </div>
+
+    <div class="text-light bg-dark" *ngIf="invoice?.currencyFinalIncoicePrice !== null">
+        Amount Due : {{invoice?.currencyFinalIncoicePrice | number : '1.2-2' }} {{ invoice?.currencyCode}}
+    </div>
+
+</div>
+
+
+<div class="row" class="text-light bg-dark">
+  <input type="number" min="0" oninput="validity.valid||(value='');" maxlength="3" placeholder="Quantity" value="0" ngModel #quantity />
+      <br>
+      <br>
+      <button type="button" class="btn btn-primary" (click)="ngPlaceOrder(quantity.value)">Place Order</button>
+
+      <div class="col-xs-12" class="list-group" *ngIf="cartService?.change !== null">
+        R {{cartService.change}}  USD
+      </div>
+
+</div>

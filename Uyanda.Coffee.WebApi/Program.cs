@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Uyanda.Coffee.Application;
 using Uyanda.Coffee.Persistence;
+using Uyanda.Coffee.Integration;
 
 namespace Uyanda.Coffee.WebApi
 {
@@ -50,7 +51,10 @@ namespace Uyanda.Coffee.WebApi
 
             // Application Modules
             serviceCollection.AddApplicationModule()
-                .AddPersistenceModule();
+                .AddPersistenceModule()
+                .AddIntegrationModule();
+
+            serviceCollection.AddHttpClient();
 
             // AutoMapper
             serviceCollection.AddTransient(_ => Mapper());

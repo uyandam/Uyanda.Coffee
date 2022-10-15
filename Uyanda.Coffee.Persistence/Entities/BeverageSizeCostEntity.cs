@@ -11,10 +11,12 @@ namespace Uyanda.Coffee.Persistence.Entities
 
         public int BeverageId { get; set; }
 
+        public int BeverageSizeId { get; set; }
+
         public BeverageEntity Beverage { get; set; }
 
         public decimal Cost { get; set; }
 
-        public BeverageSize BeverageSize { get; set; }
+        public BeverageSizeEntity BeverageSize { get; set; }
     }
 }

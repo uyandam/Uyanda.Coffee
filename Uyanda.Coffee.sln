@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30406.217
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Application", "Uyanda.Coffee.Application\Uyanda.Coffee.Application.csproj", "{D4C9CEA6-7485-4C9D-8A20-87C6927EB9C8}"
 EndProject
@@ -13,9 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Services", "U
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{5372178B-29C8-4D71-BE21-EDC4F9F2045B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{E773C391-57F1-455E-B36D-5DA81A53AA5F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Persistence", "Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj", "{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.Persistence", "Uyanda.Coffee.Persistence\Uyanda.Coffee.Persistence.csproj", "{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.Tests.Unit", "Uyanda.Coffee.Tests.Unit\Uyanda.Coffee.Tests.Unit.csproj", "{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Uyanda.Coffee.WebUI", "Uyanda.Coffee.WebUI\Uyanda.Coffee.WebUI.csproj", "{35036616-DDB8-4600-B436-ED5B13BA2EC8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uyanda.Coffee.Service", "Uyanda.Coffee.Service\Uyanda.Coffee.Service.csproj", "{25AD1D76-0BCE-4DA0-BAD4-CF27DA832436}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,20 +43,28 @@ Global
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74AF2AB4-1D2F-4536-B09E-B25C378A41B5}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E773C391-57F1-455E-B36D-5DA81A53AA5F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FA3F9876-2666-4B2A-8F05-B524B9E7CE56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35036616-DDB8-4600-B436-ED5B13BA2EC8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35036616-DDB8-4600-B436-ED5B13BA2EC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35036616-DDB8-4600-B436-ED5B13BA2EC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35036616-DDB8-4600-B436-ED5B13BA2EC8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{25AD1D76-0BCE-4DA0-BAD4-CF27DA832436}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{25AD1D76-0BCE-4DA0-BAD4-CF27DA832436}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{25AD1D76-0BCE-4DA0-BAD4-CF27DA832436}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{25AD1D76-0BCE-4DA0-BAD4-CF27DA832436}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E773C391-57F1-455E-B36D-5DA81A53AA5F} = {5372178B-29C8-4D71-BE21-EDC4F9F2045B}
+		{6327586C-B3E7-4E75-8A3C-0AFFB972C82A} = {5372178B-29C8-4D71-BE21-EDC4F9F2045B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {D4D489A2-8DA4-4289-A312-F7B97C2C7DE0}
